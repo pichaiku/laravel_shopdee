@@ -12,22 +12,22 @@ class ReportController extends Controller
     public function monthlySale($id)    
     {
         $year=date("Y");        
-        $sql = "SELECT SUBSTRING(`orders`.orderdate,6,2) AS month, 
+        $sql = "SELECT SUBSTRING(`orders`.orderDate,6,2) AS month, 
                     SUM(orderdetail.quantity*orderdetail.price) AS totalAmount 
                 FROM product 
-                    INNER JOIN orderdetail ON product.productid=orderdetail.productid
-                    INNER JOIN `orders` ON orderdetail.orderid=`orders`.orderid ";
+                    INNER JOIN orderdetail ON product.productID=orderdetail.productID
+                    INNER JOIN `orders` ON orderdetail.orderID=`orders`.orderID ";
                 
                 if($id!="" && $year!=""){
-                $sql .="WHERE `orders`.`userid`=$id AND SUBSTRING(`orders`.orderdate,1,4)='$year' ";
+                $sql .="WHERE `orders`.`customerID`=$id AND SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }else if($id!=""){
-                $sql .="WHERE `orders`.`userid`=$id ";
+                $sql .="WHERE `orders`.`customerID`=$id ";
                 }else if($year!=""){
-                $sql .="WHERE SUBSTRING(`orders`.orderdate,1,4)='$year' ";
+                $sql .="WHERE SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }
 
-                $sql .=" GROUP BY SUBSTRING(`orders`.orderdate,6,2)
-                ORDER BY SUBSTRING(`orders`.orderdate,6,2) ASC";        
+                $sql .=" GROUP BY SUBSTRING(`orders`.orderDate,6,2)
+                ORDER BY SUBSTRING(`orders`.orderDate,6,2) ASC";        
         return response()->json( DB::select($sql) );
     }
 
@@ -35,21 +35,21 @@ class ReportController extends Controller
     public function topFiveProduct($id)
     {
         $year=date("Y");
-        $sql = "SELECT product.productid, productname, 
+        $sql = "SELECT product.productID, productname, 
                         SUM(orderdetail.quantity*orderdetail.price) AS totalAmount 
                 FROM product 
-                    INNER JOIN orderdetail ON product.productid=orderdetail.productid
-                    INNER JOIN `orders` ON orderdetail.orderid=`orders`.orderid ";
+                    INNER JOIN orderdetail ON product.productID=orderdetail.productID
+                    INNER JOIN `orders` ON orderdetail.orderID=`orders`.orderID ";
 
                 if($id!="" && $year!=""){
-                $sql .="WHERE `orders`.`userid`=$id AND SUBSTRING(`orders`.orderdate,1,4)='$year' ";
+                $sql .="WHERE `orders`.`customerID`=$id AND SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }else if($id!=""){
-                $sql .="WHERE `orders`.`userid`=$id ";
+                $sql .="WHERE `orders`.`customerID`=$id ";
                 }else if($year!=""){
-                $sql .="WHERE SUBSTRING(`orders`.orderdate,1,4)='$year' ";
+                $sql .="WHERE SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }    
 
-                $sql .="GROUP BY product.productid, productname 
+                $sql .="GROUP BY product.productID, productname 
                 ORDER BY SUM(orderdetail.quantity*orderdetail.price) DESC LIMIT 5";
         return response()->json( DB::select($sql) );
     }

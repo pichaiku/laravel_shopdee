@@ -22,55 +22,55 @@ class OrderController extends Controller
     
 
     public function orderlist($id){        
-        $sql = "SELECT `orders`.`orderid`, `orderdate`, `shipdate`, 
-        `receivedate`, `orders`.`userid`, `statusid`,
-        users.firstname,users.lastname,
+        $sql = "SELECT `orders`.`orderID`, `orderDate`, `shipDate`, 
+        `receiveDate`, `orders`.`custID`, `statusID`,
+        customer.firstName,customer.lastName,
         SUM(orderdetail.quantity) AS totalQuantity,
         SUM(orderdetail.quantity*orderdetail.price) AS totalPrice 
         FROM `orders` 
-            INNER JOIN users ON users.userid=`orders`.userid         
-            INNER JOIN orderdetail ON `orders`.`orderid`=orderdetail.orderid 
-        WHERE orders.userid=$id 
-        GROUP BY `orders`.`orderid`, `orderdate`, `shipdate`, 
-            `receivedate`, `orders`.`userid`, `statusid`,
-            users.firstname,users.lastname     
-        ORDER BY `orders`.orderid ASC ";
+            INNER JOIN customer ON customer.custID=`orders`.custID         
+            INNER JOIN orderdetail ON `orders`.`orderID`=orderdetail.orderID 
+        WHERE orders.custID=$id 
+        GROUP BY `orders`.`orderID`, `orderDate`, `shipDate`, 
+            `receiveDate`, `orders`.`custID`, `statusID`,
+            customer.firstName,customer.lastName     
+        ORDER BY `orders`.orderID ASC ";
           
         return DB::select($sql);        
     }
     public function orderinfo($id){        
-        $sql = "SELECT `orders`.`orderid`, `orderdate`, `shipdate`, 
-        `receivedate`, `orders`.`userid`, `statusid`,
-        users.firstname,users.lastname,users.address,users.mobilePhone,
+        $sql = "SELECT `orders`.`orderID`, `orderDate`, `shipDate`, 
+        `receiveDate`, `orders`.`custID`, `statusID`,
+        customer.firstName,customer.lastName,customer.address,customer.mobilePhone,
         SUM(orderdetail.quantity) AS totalQuantity,
         SUM(orderdetail.quantity*orderdetail.price) AS totalPrice 
         FROM `orders` 
-            INNER JOIN users ON users.userid=`orders`.userid         
-            INNER JOIN orderdetail ON `orders`.`orderid`=orderdetail.orderid 
-        WHERE orders.orderid=$id 
-        GROUP BY `orders`.`orderid`, `orderdate`, `shipdate`, 
-            `receivedate`, `orders`.`userid`, `statusid`,
-            users.firstname,users.lastname,users.address,users.mobilePhone      
-        ORDER BY `orders`.orderid ASC ";
+            INNER JOIN customer ON customer.custID=`orders`.custID         
+            INNER JOIN orderdetail ON `orders`.`orderID`=orderdetail.orderID 
+        WHERE orders.orderID=$id 
+        GROUP BY `orders`.`orderID`, `orderDate`, `shipDate`, 
+            `receiveDate`, `orders`.`custID`, `statusID`,
+            customer.firstName,customer.lastName,customer.address,customer.mobilePhone      
+        ORDER BY `orders`.orderID ASC ";
           
         return DB::select($sql);        
     }
     public function itemcount($id)
     {
-        $sql = "SELECT a.orderid,COUNT(*) as itemcount
+        $sql = "SELECT a.orderID,COUNT(*) as itemcount
                 FROM orders as a
-                    INNER JOIN orderdetail as b ON a.orderid=b.orderid
-                WHERE a.userid=$id  AND a.statusid=0
-                GROUP BY a.orderid";
+                    INNER JOIN orderdetail as b ON a.orderID=b.orderID
+                WHERE a.custID=$id  AND a.statusID=0
+                GROUP BY a.orderID";
         return DB::select($sql);
     }
 
     //function confirm order
     public function confirmorder(Request $request){
-        $orderdate = date("Y-m-d H:i:s");
+        $orderDate = date("Y-m-d H:i:s");
         $sql = "UPDATE orders 
-                SET orderdate = '$orderdate', statusid = 1 
-                WHERE orderid = ".$request->get("orderid");
+                SET orderDate = '$orderDate', statusID = 1 
+                WHERE orderID = ".$request->get("orderID");
         DB::update($sql);
 
         return response()->json(
@@ -82,42 +82,42 @@ class OrderController extends Controller
     {
 
 
-        $userid = $request->get("userid");
-        $productid = $request->get("productid");
+        $custID = $request->get("custID");
+        $productID = $request->get("productID");
         $quantity = $request->get("quantity");
         $price = $request->get("price");
 
         //check existing order
-        $sql="SELECT orderid FROM orders WHERE userid=$userid AND statusid=0";
+        $sql="SELECT orderID FROM orders WHERE custID=$custID AND statusID=0";
         $order=DB::select($sql);
 
         if(count($order)==0)//no-existing order
         {
             $order = new Order();
-            $order->userid = $userid;
-            $order->statusid = 0;
+            $order->custID = $custID;
+            $order->statusID = 0;
             $order->save();
             
-            $sql = "INSERT INTO orderdetail VALUeS($order->orderid, $productid,$quantity,$price)";
+            $sql = "INSERT INTO orderdetail VALUeS($order->orderID, $productID,$quantity,$price)";
             DB::insert($sql);
 
         }else{//existing order
 
-            $orderid = $order[0]->orderid;
+            $orderID = $order[0]->orderID;
             $sql="SELECT COUNT(*) AS orderdetailcount 
                   FROM orderdetail 
-                  WHERE orderid = $orderid AND productid = $productid";
+                  WHERE orderID = $orderID AND productID = $productID";
             $orderdetail = DB::select($sql);
 
             if($orderdetail[0]->orderdetailcount == 0)//no-existing order detail
             {
-                $sql = "INSERT INTO orderdetail VALUeS($orderid, $productid,$quantity,$price)";
+                $sql = "INSERT INTO orderdetail VALUeS($orderID, $productID,$quantity,$price)";
                 DB::insert($sql);
 
             }else{
                 $sql = "UPDATE orderdetail 
                         SET quantity = quantity + $quantity 
-                        WHERE orderid = $orderid AND productid = $productid";
+                        WHERE orderID = $orderID AND productID = $productID";
                 DB::update($sql);
 
             }

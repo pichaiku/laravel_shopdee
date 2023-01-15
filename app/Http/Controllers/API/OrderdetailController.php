@@ -8,9 +8,9 @@ class OrderdetailController extends Controller
 {    
 
     public function orderdetail($id){        
-        $sql = "SELECT orderdetail.*,product.productname 
+        $sql = "SELECT orderdetail.*,product.productName 
                 FROM orderdetail
-                    INNER JOIN product ON orderdetail.productid = product.productid
+                    INNER JOIN product ON orderdetail.productID = product.productID
                 WHERE orderid=$id";
           
         return DB::select($sql);        

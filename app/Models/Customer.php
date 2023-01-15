@@ -14,7 +14,7 @@ class Customer extends Model
 
 
     protected $fillable = [
-        'customerID', 'firstName', 'lastName', 'houseNo', 'villageNo', 'road', 'subdistrictID','homePhone', 'mobilePhone', 'birthDate', 'gender', 'isActive', 'username', 'password', 'email', 'zipcode', 'imageFileName', 'latitude', 'longitude'
+        'firstName', 'lastName', 'address', 'subdistrictID', 'zipcode', 'moblePhone', 'homePhone', 'birthdate', 'gender', 'email', 'username', 'password', 'imagefile', 'isActive'
     ];
 
     public static function index($query="")

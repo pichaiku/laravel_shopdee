@@ -63,13 +63,13 @@ class PaymentController extends Controller
         $paymentDate = $request->get('paymentDate');
         $price = $request->get('price');
         $comment = $request->get('comment');
-        $imageFileName = $request->get('imageFileName');
+        $slipFile = $request->get('slipFile');
         
         $payment = Payment::find($id);
         if($paymentDate!="") $payment->paymentDate=$paymentDate;
         if($price!="") $payment->price=$price;
         if($comment!="") $payment->comment=$comment;
-        if($imageFileName!="") $payment->imageFileName=$imageFileName;
+        if($slipFile!="") $payment->slipFile=$slipFile;
 
         $payment->save();
 

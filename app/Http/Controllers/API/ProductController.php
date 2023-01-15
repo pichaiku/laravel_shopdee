@@ -10,11 +10,11 @@ class ProductController extends Controller
     public function index($id="")
     {   
         if(empty($id)){
-            $sql="SELECT * FROM product ORDER BY productid ASC";
+            $sql="SELECT * FROM product ORDER BY productID ASC";
             $product=DB::select($sql);
             
         }else{
-            $sql="SELECT * FROM product WHERE productid=$id ORDER BY productid ASC";            
+            $sql="SELECT * FROM product WHERE productID=$id ORDER BY productID ASC";            
             $product=DB::select($sql)[0];
         }          
 

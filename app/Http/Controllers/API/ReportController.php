@@ -19,9 +19,9 @@ class ReportController extends Controller
                     INNER JOIN `orders` ON orderdetail.orderID=`orders`.orderID ";
                 
                 if($id!="" && $year!=""){
-                $sql .="WHERE `orders`.`customerID`=$id AND SUBSTRING(`orders`.orderDate,1,4)='$year' ";
+                $sql .="WHERE `orders`.`custID`=$id AND SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }else if($id!=""){
-                $sql .="WHERE `orders`.`customerID`=$id ";
+                $sql .="WHERE `orders`.`custID`=$id ";
                 }else if($year!=""){
                 $sql .="WHERE SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }
@@ -42,9 +42,9 @@ class ReportController extends Controller
                     INNER JOIN `orders` ON orderdetail.orderID=`orders`.orderID ";
 
                 if($id!="" && $year!=""){
-                $sql .="WHERE `orders`.`customerID`=$id AND SUBSTRING(`orders`.orderDate,1,4)='$year' ";
+                $sql .="WHERE `orders`.`custID`=$id AND SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }else if($id!=""){
-                $sql .="WHERE `orders`.`customerID`=$id ";
+                $sql .="WHERE `orders`.`custID`=$id ";
                 }else if($year!=""){
                 $sql .="WHERE SUBSTRING(`orders`.orderDate,1,4)='$year' ";
                 }    

@@ -80,36 +80,45 @@ class CustomerController extends Controller
 
     public function update(Request $request)
     {
-        $userid = $request->get('userid');
+        $custID = $request->get('custID');
         $username = $request->get('username');
         $password = $request->get('password');
         $firstName = $request->get('firstName');
         $lastName = $request->get('lastName');
         $email = $request->get('email');
-        $address = $request->get('address');
-        $mobilephone = $request->get('mobilephone');
-        
-        $file = $request->file("imagefile");
-        if(isset($file)){
-            $file->move("assets/user", $file->getClientOriginalName());
-            $imagefile = $file->getClientOriginalName();
-            $sql_image = "imagefile='$imagefile',";
-        }else{            
-            $sql_image = "";
-        }
+        $gender = $request->get('gender');    
+        $file = $request->file("imageFile");    
 
         if($password != ""){
             $sql_pass = "password='$password',";
         }else{
             $sql_pass = "";
         }
+        
+        if($gender != ""){
+            $sql_gender = "gender='$gender',";
+        }else{
+            $sql_gender = "";
+        }
 
-        $sql = "UPDATE users set username='$username', 
-        firstName='$firstName', lastName='$lastName', address='$address', ";        
-        $sql .= $sql_image." ".$sql_pass;
-        $sql .= "mobilephone='$mobilephone' WHERE userid='$userid' ";
+        
+        if(isset($file)){
+            $file->move("assets/user", $file->getClientOriginalName());
+            $imageFile = $file->getClientOriginalName();
+
+            $sql_image = "imageFile='$imageFile',";
+        }else{            
+            $sql_image = "";
+        }
+
+
+        $sql = "UPDATE customer set username='$username',
+                firstName='$firstName',lastName='$lastName',  ";        
+        $sql .= $sql_pass." ".$sql_gender." ".$sql_image;
+        $sql .= "email='$email' WHERE custID='$custID' ";
         //echo $sql;
         //die();
+
 
         DB::update($sql);
 

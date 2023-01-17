@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Route::get('profile/{id}', [App\Http\Controllers\API\CustomerController::class, 'profile']);
+
 
 Route::post('login', [App\Http\Controllers\API\CustomerController::class, 'login']);
 Route::post('register', [App\Http\Controllers\API\CustomerController::class, 'register']);
@@ -40,3 +42,6 @@ Route::get('payment', [App\Http\Controllers\API\PaymentController::class, 'index
 Route::get('payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'view']);
 Route::post('payment', [App\Http\Controllers\API\PaymentController::class, 'create']);
 Route::put('payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'update']);
+
+
+//Route::resource('photos', [App\Http\Controllers\API\CustomerController::class, 'update']);

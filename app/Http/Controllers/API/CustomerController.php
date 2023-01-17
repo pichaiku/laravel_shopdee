@@ -24,6 +24,27 @@ class CustomerController extends Controller
                     'status'=>'true'));
 
     }
+    
+
+    public function profile($id){
+
+        $sql = "SELECT * FROM customer WHERE custID='$id' ";
+        $users=DB::select($sql);
+
+        if($users){
+            $user = (array)$users[0];
+            $user['message'] = 'success';
+            $user['status'] = 'true';
+        }else{
+            $user = array();
+            $user['message'] = 'this user is not found.';
+            $user['status'] = 'false';          
+            // $user = array('message' => 'this user is not found.',
+            //         'status'=>'false');
+        }
+        return response()->json($user);
+        
+    }
 
     public function login(Request $request){
         $username = $request->get('username');
@@ -58,7 +79,7 @@ class CustomerController extends Controller
                     'status'=>'true'));        
     }
 
-    public function profile($id)
+    public function profixle($id)
     {
         $sql="SELECT * FROM customer  
             WHERE custID=$id";
@@ -103,7 +124,7 @@ class CustomerController extends Controller
 
         
         if(isset($file)){
-            $file->move("assets/user", $file->getClientOriginalName());
+            $file->move("assets/customer", $file->getClientOriginalName());
             $imageFile = $file->getClientOriginalName();
 
             $sql_image = "imageFile='$imageFile',";

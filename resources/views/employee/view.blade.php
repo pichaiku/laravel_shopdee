@@ -56,7 +56,7 @@
             </div>
             <div class=" col-md-4 mb-3">
                 <div class="card" style="width:120px">
-                    <img src="/uploadfile/employee/<?=$employee->imageFileName==''?'avatar.png':$employee->imageFileName?>" 
+                    <img src="/assets/employee/<?=$employee->imageFile==''?'avatar.png':$employee->imageFile?>" 
                     class="rounded" alt="ไฟล์รูปภาพ" style="width:120px;height:120px">
                 </div>
             </div>
@@ -64,16 +64,14 @@
 
         <div class="row">
             <div class="col-md-4 mb-3">
-                <label for="houseNo">บ้านเลขที่:</label>
-                {{$employee->houseNo}}
+                <label for="address">บ้านเลขที่:</label>
+                {{$employee->address}}
             </div>
             <div class="col-md-4 mb-3">
-                <label for="villageNo">หมู่ที่:</label>
-                {{$employee->villageNo}}
+                <label for="villageNo">หมู่ที่:</label>                
             </div>
             <div class="col-md-4 mb-3">
-                <label for="road">ถนน:</label>
-                {{$employee->road}}
+                <label for="road">ถนน:</label>                
             </div>  
         </div>
 

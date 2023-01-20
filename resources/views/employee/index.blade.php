@@ -1,5 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.site')
 @section('content')
+<script>
+  
+</script>
 <style>
   .uper {
     margin-top: 40px;
@@ -17,7 +20,7 @@
     <div class="row">
         <div class=" col-md-6 mb-3">
           <a href="{{ route('employee.add')}}" class="btn btn-success">
-          เพิ่มข้อมูล
+          เพิ่มข้อมูลพนักงาน
           </a>
         </div>
         <div class=" col-md-6 mb-3">
@@ -44,22 +47,22 @@
       <tbody>
           @foreach($employees as $emp)
           <tr>
-              <td>{{$emp->employeeID}}</td>
+              <td>{{$emp->empID}}</td>
               <td>{{$emp->firstName}}</td>
               <td>{{$emp->lastName}}</td>
               <td>{{$emp->username}}</td>
               <td>{{$emp->password}}</td>
-              <td><a href="{{ route('employee.view',$emp->employeeID)}}" class="btn btn-primary">แสดง</a></td>
-              <td><a href="{{ route('employee.edit',$emp->employeeID)}}" class="btn btn-warning">แก้ไข</a></td>
+              <td><a href="{{ route('employee.view',$emp->empID)}}" class="btn btn-primary">แสดง</a></td>
+              <td><a href="{{ route('employee.edit',$emp->empID)}}" class="btn btn-warning">แก้ไข</a></td>
               <td>
                   <!--
-                  <form action="{{ route('employee.delete', $emp->employeeID)}}" method="post">
+                  <form action="{{ route('employee.delete', $emp->empID)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger" type="submit">ลบ</button>
                   </form>
                   -->
-                  <a class="btn btn-danger" onclick="return confirm('คุณต้องการลบข้อมูลรายการนี้?')" href="{{ route('employee.delete', $emp->employeeID)}}">
+                  <a class="btn btn-danger" onclick="return confirm('คุณต้องการลบข้อมูลรายการนี้?')" href="{{ route('employee.delete', $emp->empID)}}">
                   ลบ
                   </a>
 
@@ -70,8 +73,8 @@
       <tfoot>
         <tr>
           <td colspan="8">
-          ค้นพบทั้งหมด {{$employees->total()}} รายการ
-          {{ $employees->appends(\Request::except('_token'))->render() }}
+          <!-- ค้นพบทั้งหมด {{$employees->total()}} รายการ
+          {{ $employees->appends(\Request::except('_token'))->render() }} -->
           </td>
         </tr>
       </tfoot>

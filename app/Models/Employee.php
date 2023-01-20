@@ -12,11 +12,11 @@ class Employee extends Model
     protected $table = 'employee'; // Ignore automatically add "s" into table name
     public $incrementing = true; // Ignore incremental primary key
     public $timestamps = false; // Ignore automatically add create_at and update_at attribute into table
-    protected $primaryKey = 'employeeID'; //Ignore automatically query with id as primary key
+    protected $primaryKey = 'empID'; //Ignore automatically query with id as primary key
 
 
     protected $fillable = [
-        'userID', 'firstName', 'lastName', 'houseNo', 'villageNo', 'road', 'subdistrictID','homePhone', 'mobilePhone', 'birthDate', 'gender', 'isActive', 'username', 'password', 'email', 'zipcode', 'imageFileName','departmentID', 'positionID'
+        'firstName', 'lastName', 'address', 'subdistrictID', 'zipcode', 'mobilePhone', 'homePhone', 'birthdate', 'gender', 'email', 'username', 'password', 'imageFile', 'positionID', 'isActive'
     ];
 
     public static function index()
@@ -26,7 +26,7 @@ class Employee extends Model
             INNER JOIN subdistrict ON employee.subdistrictID=subdistrict.subdistrictID 
             INNER JOIN district ON subdistrict.districtID=district.districtID 
             INNER JOIN province ON district.provinceID=province.provinceID 
-            ORDER BY employee.employeeID ASC ";
+            ORDER BY employee.empID ASC ";
         return DB::select($sql);
     }
 
@@ -37,27 +37,33 @@ class Employee extends Model
          INNER JOIN subdistrict ON employee.subdistrictID=subdistrict.subdistrictID 
          INNER JOIN district ON subdistrict.districtID=district.districtID 
          INNER JOIN province ON district.provinceID=province.provinceID 
-         WHERE employee.employeeID=$id";
+         WHERE employee.empID=$id"; echo $sql;die();
          $data=DB::select($sql);
          if(count($data)>0)$data=$data[0];
          return $data;
     }
-
     public static function searchEmployee($q)
     {
         return DB::table('employee')
-                ->join('position', 'employee.positionID', '=', 'position.positionID')
-                ->join('subdistrict', 'employee.subdistrictID', '=', 'subdistrict.subdistrictID')
-                ->join('district', 'subdistrict.districtID', '=', 'district.districtID')
-                ->join('province', 'district.provinceID', '=', 'province.provinceID')
                 ->select('*')
                 ->where('firstName', 'LIKE', '%' . $q . '%')
-                ->orWhere('lastName', 'LIKE', '%' . $q . '%')
-                ->orWhere('positionName', 'LIKE', '%' . $q . '%')
-                ->orWhere('provinceName', 'LIKE', '%' . $q . '%')
-                ->orWhere('districtName', 'LIKE', '%' . $q . '%')
-                ->orWhere('subdistrictName', 'LIKE', '%' . $q . '%');
+                ->orWhere('lastName', 'LIKE', '%' . $q . '%');
     }
+    // public static function searchEmployee($q)
+    // {
+    //     return DB::table('employee')
+    //             ->join('position', 'employee.positionID', '=', 'position.positionID')
+    //             ->join('subdistrict', 'employee.subdistrictID', '=', 'subdistrict.subdistrictID')
+    //             ->join('district', 'subdistrict.districtID', '=', 'district.districtID')
+    //             ->join('province', 'district.provinceID', '=', 'province.provinceID')
+    //             ->select('*')
+    //             ->where('firstName', 'LIKE', '%' . $q . '%')
+    //             ->orWhere('lastName', 'LIKE', '%' . $q . '%')
+    //             ->orWhere('positionName', 'LIKE', '%' . $q . '%')
+    //             ->orWhere('provinceName', 'LIKE', '%' . $q . '%')
+    //             ->orWhere('districtName', 'LIKE', '%' . $q . '%')
+    //             ->orWhere('subdistrictName', 'LIKE', '%' . $q . '%');
+    // }
     
     public static function validateUser($username,$password)
     {

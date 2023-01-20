@@ -52,7 +52,7 @@ class EmployeeController extends Controller
             $request->validate([
                 'username'=>'required',
                 'password'=>'required',
-                'employeeID'=>'required',
+                'empID'=>'required',
                 'firstName'=> 'required',
                 'lastName' => 'required'
             ]);
@@ -64,9 +64,9 @@ class EmployeeController extends Controller
             $file = $request->file('file');
             if(isset($file)){
                 $file->move('uploadfile/employee',$file->getClientOriginalName());
-                $imageFileName = $file->getClientOriginalName();
+                $imageFile= $file->getClientOriginalName();
             }else{
-                $imageFileName = "";
+                $imageFile= "";
             }
 
             $employee = new Employee([
@@ -75,9 +75,7 @@ class EmployeeController extends Controller
                     'firstName'=> $request->get('firstName'),
                     'lastName'=> $request->get('lastName'),
             
-                    'houseNo' => $request->get('houseNo'),
-                    'villageNo'=> $request->get('villageNo'),
-                    'road' => $request->get('road'),
+                    'address' => $request->get('address'),                                        
                     'subdistrictID'=> $request->get('subdistrictID'),
                     'homePhone'=> $request->get('homePhone'),
                     'mobilePhone'=> $request->get('mobilePhone'),
@@ -88,7 +86,7 @@ class EmployeeController extends Controller
                     'email'=> $request->get('email'),
                     'zipcode'=> $request->get('zipcode'),
             
-                    'imageFileName' => $imageFileName,
+                    'imageFile' => $imageFile,
                     //'departmentID'=> $request->get('departmentID'),
                     'positionID'=> $request->get('positionID')
                     
@@ -101,7 +99,7 @@ class EmployeeController extends Controller
 
     public function view($id)
     {
-        $employee = Employee::viewEmployee($id);
+        $employee = Employee::view($id);
         
         return view('employee.view',compact('employee'));
     }
@@ -131,9 +129,7 @@ class EmployeeController extends Controller
         $employee->username = $request->get('username');
         $employee->password = $request->get('password');
 
-        $employee->houseNo = $request->get('houseNo');
-        $employee->villageNo = $request->get('villageNo');
-        $employee->road = $request->get('road');
+        $employee->address = $request->get('address');                
         $employee->subdistrictID = $request->get('subdistrictID');
         $employee->homePhone = $request->get('homePhone');
         $employee->mobilePhone = $request->get('mobilePhone');
@@ -147,7 +143,7 @@ class EmployeeController extends Controller
         $file = $request->file('file');
         if(isset($file)){
             $file->move('uploadfile/employee',$file->getClientOriginalName());
-            $employee->imageFileName = $file->getClientOriginalName();
+            $employee->imageFile= $file->getClientOriginalName();
         }
 
         //$employee->departmentID = $request->get('departmentID');

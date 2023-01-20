@@ -66,7 +66,7 @@
         <div class=" col-md-4 mb-3">
             <label for="file">รูปภาพ:</label>
             <div class="card" style="width:180px">
-                <img src="/uploadfile/employee/<?=$employee->imageFileName==''?'avatar.png':$employee->imageFileName?>" 
+                <img src="/assets/employee/<?=$employee->imageFileName==''?'avatar.png':$employee->imageFileName?>" 
                     class="rounded" alt="ไฟล์รูปภาพ" style="width:180px;height:180px">
                 <input type="file" name="file"/>
             </div>

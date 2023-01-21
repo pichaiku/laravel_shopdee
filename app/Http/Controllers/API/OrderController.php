@@ -30,7 +30,7 @@ class OrderController extends Controller
         FROM `orders` 
             INNER JOIN customer ON customer.custID=`orders`.custID         
             INNER JOIN orderdetail ON `orders`.`orderID`=orderdetail.orderID 
-        WHERE orders.custID=$id 
+        WHERE orders.custID=$id and orders.statusID <> 0 
         GROUP BY `orders`.`orderID`, `orderDate`, `shipDate`, 
             `receiveDate`, `orders`.`custID`, `statusID`,
             customer.firstName,customer.lastName     

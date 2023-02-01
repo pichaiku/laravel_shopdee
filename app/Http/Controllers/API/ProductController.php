@@ -5,20 +5,15 @@ use Illuminate\Http\Request;
 use DB;
 
 class ProductController extends Controller
-{    
+{   
 
-    public function index($id="")
-    {   
-        if(empty($id)){
-            $sql="SELECT * FROM product ORDER BY productID ASC";
-            $product=DB::select($sql);
-            
-        }else{
-            $sql="SELECT * FROM product WHERE productID=$id ORDER BY productID ASC";            
-            $product=DB::select($sql)[0];
-        }          
+    public function index(){
 
-        return response()->json($product);
+        $sql = "SELECT * FROM product ";
+        $products=DB::select($sql);
+
+        return response()->json($products);
+        
     }
 
 }

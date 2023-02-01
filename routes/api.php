@@ -21,11 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('profile/{id}', [App\Http\Controllers\API\CustomerController::class, 'profile']);
 
 
+Route::get('product', [App\Http\Controllers\API\ProductController::class, 'index']);
+
 Route::post('login', [App\Http\Controllers\API\CustomerController::class, 'login']);
 Route::post('register', [App\Http\Controllers\API\CustomerController::class, 'register']);
 Route::get('profile/{id}', [App\Http\Controllers\API\CustomerController::class, 'profile']);
 Route::post('customer', [App\Http\Controllers\API\CustomerController::class, 'update']);
-Route::get('product', [App\Http\Controllers\API\ProductController::class, 'index']);
+//Route::get('product', [App\Http\Controllers\API\ProductController::class, 'index']);
 Route::get('product/{id}', [App\Http\Controllers\API\ProductController::class, 'index']);
 Route::post('order', [App\Http\Controllers\API\OrderController::class, 'order']);
 Route::get('orderlist/{id}', [App\Http\Controllers\API\OrderController::class, 'orderlist']);

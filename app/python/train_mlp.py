@@ -1,20 +1,38 @@
-#pip install mysql-connector-python
+#Import python package
 import pandas as pd
-from sklearn.neural_network import MLPRegressor
 import mysql.connector as sql
+import cx_Oracle
 import joblib
+import warnings
+from sklearn.neural_network import MLPRegressor
+warnings.filterwarnings("ignore")
 
-#X = pd.read_csv("C:\\xampp\\htdocs\\shoppee\\app\\python\\price_house.csv")
-conn = sql.connect(host='localhost', database='shopdee', user='root', password='')
-query = 'select * from price_house'
-X = pd.read_sql(query, conn)
+#Load data
+X = pd.read_csv("C:\\xampp\\htdocs\\shoppee\\app\\python\\price_house.csv")
 
-x = X.iloc[:, 1:len(X.columns)-1]
-y = X.iloc[:, len(X.columns)-1]
+# conn=sql.connect(host="localhost", database="shopdee", 
+#                  user="root", password="")
+# query="SELECT * FROM houseprice"
+# X=pd.read_sql(query,conn)
 
-net = MLPRegressor(solver='adam', activation='relu', hidden_layer_sizes=3, max_iter=1000)
+# dsn_tns = cx_Oracle.makedsn('localhost', '1521', 'orcl')
+# conn = cx_Oracle.connect(user='shopdee', password='1234', dsn=dsn_tns)
+# query = 'select * from houseprice'
+# X = pd.read_sql(query,conn)
+
+y=X.iloc[:,len(X.columns)-1]
+x=X.iloc[:,1:len(X.columns)-1]
+
+
+#Build Model
+net = MLPRegressor(solver='adam',activation='relu',
+                        hidden_layer_sizes=3, 
+                        learning_rate_init=0.2,max_iter=1000)   
 net.fit(x,y)
 
-joblib.dump(net, 'C:\\xampp\\htdocs\\shopdee\\app\\python\\train_mlp.pkl')
+
+#export model
+path='C:\\xampp\\htdocs\\shoppee\\app\\python\\train_mlp.pkl'
+joblib.dump(net, path)
 
 print('success')

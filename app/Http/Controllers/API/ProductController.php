@@ -16,4 +16,12 @@ class ProductController extends Controller
         
     }
 
+    public function show($id){
+
+        $sql = "SELECT * FROM product WHERE productID=$id";
+        $products=DB::select($sql)[0];
+
+        return response()->json($products);
+        
+    }
 }

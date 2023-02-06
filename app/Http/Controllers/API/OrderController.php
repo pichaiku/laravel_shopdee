@@ -20,7 +20,23 @@ class OrderController extends Controller
 
     }    
 
-    
+    public function cart($id){        
+        $sql = "SELECT `orders`.`orderID`, `orderDate`, `shipDate`, 
+        `receiveDate`, `orders`.`custID`, `statusID`,
+        customer.firstName,customer.lastName,customer.address,customer.mobilePhone,
+        SUM(orderdetail.quantity) AS totalQuantity,
+        SUM(orderdetail.quantity*orderdetail.price) AS totalPrice,
+        COUNT(orderdetail.orderID) AS itemCount 
+        FROM `orders` 
+            INNER JOIN customer ON customer.custID=`orders`.custID         
+            INNER JOIN orderdetail ON `orders`.`orderID`=orderdetail.orderID 
+        WHERE orders.custID=$id  AND orders.statusID=0 
+        GROUP BY `orders`.`orderID`, `orderDate`, `shipDate`, 
+            `receiveDate`, `orders`.`custID`, `statusID`,
+            customer.firstName,customer.lastName,customer.address,customer.mobilePhone";
+          
+        return DB::select($sql);        
+    }
 
     public function orderlist($id){        
         $sql = "SELECT `orders`.`orderID`, `orderDate`, `shipDate`, 
@@ -55,15 +71,6 @@ class OrderController extends Controller
         ORDER BY `orders`.orderID ASC ";
           
         return DB::select($sql);        
-    }
-    public function itemcount($id)
-    {
-        $sql = "SELECT a.orderID,COUNT(*) as itemcount
-                FROM orders as a
-                    INNER JOIN orderdetail as b ON a.orderID=b.orderID
-                WHERE a.custID=$id  AND a.statusID=0
-                GROUP BY a.orderID";
-        return DB::select($sql);
     }
 
     //function confirm order

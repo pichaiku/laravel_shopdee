@@ -28,7 +28,7 @@ Route::post('register', [App\Http\Controllers\API\CustomerController::class, 're
 Route::get('profile/{id}', [App\Http\Controllers\API\CustomerController::class, 'profile']);
 Route::post('customer', [App\Http\Controllers\API\CustomerController::class, 'update']);
 //Route::get('product', [App\Http\Controllers\API\ProductController::class, 'index']);
-Route::get('product/{id}', [App\Http\Controllers\API\ProductController::class, 'index']);
+Route::get('product/{id}', [App\Http\Controllers\API\ProductController::class, 'show']);
 Route::post('order', [App\Http\Controllers\API\OrderController::class, 'order']);
 Route::get('orderlist/{id}', [App\Http\Controllers\API\OrderController::class, 'orderlist']);
 Route::get('orderinfo/{id}', [App\Http\Controllers\API\OrderController::class, 'orderinfo']);
@@ -37,7 +37,7 @@ Route::post('confirmorder', [App\Http\Controllers\API\OrderController::class, 'c
 
 Route::get('monthlySale/{id}', [App\Http\Controllers\API\ReportController::class, 'monthlySale']);
 Route::get('topFiveProduct/{id}', [App\Http\Controllers\API\ReportController::class, 'topFiveProduct']);
-Route::get('itemcount/{id}', [App\Http\Controllers\API\OrderController::class, 'itemcount']);
+Route::get('cart/{id}', [App\Http\Controllers\API\OrderController::class, 'cart']);
 
 //payment
 Route::get('payment', [App\Http\Controllers\API\PaymentController::class, 'index']);

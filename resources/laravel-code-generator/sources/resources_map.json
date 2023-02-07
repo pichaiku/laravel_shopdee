@@ -1,0 +1,7 @@
+[
+    {
+        "model-name": "product",
+        "resource-file": "products.json",
+        "table-name": "product"
+    }
+]

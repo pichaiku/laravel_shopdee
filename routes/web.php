@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,48 +17,41 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/sdfs', function () {
+//     return view('product');
+// });
+ 
+// Route::get('/product', [App\Http\Controllers\ProductController::class, 'show']);
+ 
 
-Route::get('/about', function () {
-    return view('about');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group([
+    'prefix' => 'products',
+], function () {
+    Route::get('/', [ProductsController::class, 'index'])
+         ->name('products.product.index');
+    Route::get('/create', [ProductsController::class, 'create'])
+         ->name('products.product.create');
+    Route::get('/show/{product}',[ProductsController::class, 'show'])
+         ->name('products.product.show')->where('id', '[0-9]+');
+    Route::get('/{product}/edit',[ProductsController::class, 'edit'])
+         ->name('products.product.edit')->where('id', '[0-9]+');
+    Route::post('/', [ProductsController::class, 'store'])
+         ->name('products.product.store');
+    Route::put('product/{product}', [ProductsController::class, 'update'])
+         ->name('products.product.update')->where('id', '[0-9]+');
+    Route::delete('/product/{product}',[ProductsController::class, 'destroy'])
+         ->name('products.product.destroy')->where('id', '[0-9]+');
 });
 
 
-Route::get('/product', [App\Http\Controllers\ProductController::class, 'show']);
+Auth::routes();
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Auth::routes();
 
-
-
-
-
-
-
-
-
-
-// Route::post('/login', [App\Http\Controllers\EmployeeController::class, 'login'])->name('employee.login');
-
-// Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee.index');
-// Route::get('/employee/view/{id}', [App\Http\Controllers\EmployeeController::class, 'view'])->name('employee.view');
-// Route::get('/employee/add', [App\Http\Controllers\EmployeeController::class, 'add'])->name('employee.add');
-// Route::get('/employee/edit/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
-// Route::get('/employee/district/{id}', [App\Http\Controllers\EmployeeController::class, 'district']);
-// Route::get('/employee/subdistrict/{id}', [App\Http\Controllers\EmployeeController::class, 'subdistrict']);
-
-// Route::post('/employee/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
-// Route::put('//employee/update/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
-// Route::delete('/employee/delete/{id}', [App\Http\Controllers\EmployeeController::class, 'delete'])->name('employee.delete');
-
-//Route::get('/employee', 'EmployeeController@index')->name('employee.index');
-// Route::get('/employee/view/{id}', 'EmployeeController@view')->name('employee.view');
-// Route::get('/employee/add', 'EmployeeController@add')->name('employee.add');
-// Route::get('/employee/edit/{id}', 'EmployeeController@edit')->name('employee.edit');
-// Route::post('/employee/create', 'EmployeeController@create')->name('employee.create');
-// Route::put('/employee/update/{id}', 'EmployeeController@update')->name('employee.update');
-// Route::get('/employee/delete/{id}', 'EmployeeController@delete')->name('employee.delete');
-// Route::get('/employee/district/{id}','EmployeeController@district');
-// Route::get('/employee/subdistrict/{id}','EmployeeController@subdistrict');
-
-
-// Route::get('/family', [App\Http\Controllers\FamilyController::class, 'family']);
-// Route::get('/compute', [App\Http\Controllers\FamilyController::class, 'compute'])->name('family.compute');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

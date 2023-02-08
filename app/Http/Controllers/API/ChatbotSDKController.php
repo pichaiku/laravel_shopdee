@@ -40,10 +40,10 @@ use LINE\LINEBot\MessageBuilder\LocationMessageBuilder;
 
 class ChatbotSDKController extends Controller
 {    
-    public function chatbot()
+    public function foodchat()
     {
-        $accessToken = "/1+2TmrOmK1PmVtl8gAAS93e8V7+ikGOC9vDPccVyGgiWFlHrMLZ/5jqfDoRnAkBbINXquGo1zHqEWrPKKdC7bomOdOE9DyaDXSjHwNGEzeP10bMzEIf6KMXuWek48hH67LnkiIHATdXP5AdZsxpKQdB04t89/1O/w1cDnyilFU="; //line access token
-        $channel_secret = "82c74657c8fe9f569528c3e4205faa18";
+        $accessToken = "6g9i4T6Ksj7xdlroWVsPbti3DZjU8fR9Az+1DHPkNoFbIj729wH+oILcJlv9hB0nbINXquGo1zHqEWrPKKdC7bomOdOE9DyaDXSjHwNGEzfZgxF3Kw07m33Bb2xbu/mhdXxlA1FTni373Hd62+n99wdB04t89/1O/w1cDnyilFU=";
+        $channel_secret = "7b6b689c20b04dfdcb2219195250c4a9";
 
         // เชื่อมต่อกับ LINE Messaging API
         $httpClient = new CurlHTTPClient($accessToken);
@@ -90,7 +90,7 @@ class ChatbotSDKController extends Controller
             $bot->replyMessage($replyToken,$replyData);
         }
 
-        exit;
+        http_response_code(200);
                 
     }
 

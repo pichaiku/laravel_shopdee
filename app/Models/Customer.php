@@ -3,81 +3,97 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
 
 class Customer extends Model
 {
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'customer';
 
-    protected $table = 'customer'; 
-    protected $primaryKey = 'customerID'; 
-    public $timestamps = false; 
+    /**
+    * The database primary key value.
+    *
+    * @var string
+    */
+    protected $primaryKey = 'custID';
 
-
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'firstName', 'lastName', 'address', 'subdistrictID', 'zipcode', 'mobilePhone', 'homePhone', 'birthdate', 'gender', 'email', 'username', 'password', 'imagefile', 'isActive'
-    ];
+                  'firstName',
+                  'lastName',
+                  'address',
+                  'subdistrictID',
+                  'zipcode',
+                  'mobilePhone',
+                  'homePhone',
+                  'birthdate',
+                  'gender',
+                  'email',
+                  'username',
+                  'password',
+                  'imageFile',
+                  'isActive'
+              ];
 
-    public static function index($query="")
-    {
-        if($query==""){
-            $sql="SELECT * FROM customer 
-                  INNER JOIN subdistrict ON customer.subdistrictID=subdistrict.subdistrictID 
-                  INNER JOIN district ON subdistrict.districtID=district.districtID 
-                  INNER JOIN province ON district.provinceID=province.provinceID 
-                  ORDER BY customer.customerID ASC ";
-         }else{
-            $sql="SELECT * FROM customer 
-                  INNER JOIN subdistrict ON customer.subdistrictID=subdistrict.subdistrictID 
-                  INNER JOIN district ON subdistrict.districtID=district.districtID 
-                  INNER JOIN province ON district.provinceID=province.provinceID 
-                  WHERE customer.firstName LIKE '%$query%' OR 
-                        customer.lastName LIKE '%$query%' OR 
-                        province.provinceName LIKE '%$query%' OR 
-                        district.districtName LIKE '%$query%' OR 
-                        subdistrict.subdistrictName LIKE '%$query%' 
-                  ORDER BY customer.customerID ASC ";
-         }
-        return DB::select($sql);
-    }
-
-    public function count($query="")
-    {
-       $sql="SELECT COUNT(*) AS count FROM customer 
-             INNER JOIN subdistrict ON customer.subdistrictID=subdistrict.subdistrictID 
-             INNER JOIN district ON subdistrict.districtID=district.districtID 
-             INNER JOIN province ON district.provinceID=province.provinceID ";
-
-       if($query!=""){
-          $sql.="WHERE customer.firstName LIKE '%$query%' OR 
-                         customer.lastName LIKE '%$query%' OR 
-                         province.provinceName LIKE '%$query%' OR 
-                         district.districtName LIKE '%$query%' OR 
-                         subdistrict.subdistrictName LIKE '%$query%' ";
-       }
-       
-       return DB::select($sql)[0]->count;
-    }
-
-    public static function view($id)
-    {
-        $sql="SELECT * FROM customer 
-               INNER JOIN subdistrict ON customer.subdistrictID=subdistrict.subdistrictID 
-               INNER JOIN district ON subdistrict.districtID=district.districtID 
-               INNER JOIN province ON district.provinceID=province.provinceID 
-               WHERE customer.customerID=$id";
-         $data=DB::select($sql);
-         if(count($data)>0)$data=$data[0];
-         return $data;
-    }
-
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [];
     
-    public static function validateUser($username,$password)
-    {
-        return DB::table('customer')
-                ->select('*')
-                ->where('username', $username)
-                ->Where('password', $password)
-                ->first();
-    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [];
     
+    /**
+     * Get the orders for this model.
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order','custID','custID');
+    }
+
+    /**
+     * Set the birthdate.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setBirthdateAttribute($value)
+    {
+        $this->attributes['birthdate'] = !empty($value) ? \DateTime::createFromFormat('j/n/Y g:i A', $value) : null;
+    }
+
+    /**
+     * Get birthdate in array format
+     *
+     * @param  string  $value
+     * @return array
+     */
+    public function getBirthdateAttribute($value)
+    {
+        //return \DateTime::createFromFormat($this->getDateFormat(), $value)->format('j/n/Y g:i A');
+        return $value;
+    }
+
 }

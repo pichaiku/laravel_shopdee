@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\EmployeesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,14 +16,16 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 // Route::get('/sdfs', function () {
 //     return view('product');
 // });
  
 // Route::get('/product', [App\Http\Controllers\ProductController::class, 'show']);
+
+Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index']);
  
 
 Auth::routes();
@@ -48,10 +52,40 @@ Route::group([
 });
 
 
-Auth::routes();
+Route::group([
+    'prefix' => 'customers',
+], function () {
+    Route::get('/', [CustomersController::class, 'index'])
+         ->name('customers.customer.index');
+    Route::get('/create', [CustomersController::class, 'create'])
+         ->name('customers.customer.create');
+    Route::get('/show/{customer}',[CustomersController::class, 'show'])
+         ->name('customers.customer.show')->where('id', '[0-9]+');
+    Route::get('/{customer}/edit',[CustomersController::class, 'edit'])
+         ->name('customers.customer.edit')->where('id', '[0-9]+');
+    Route::post('/', [CustomersController::class, 'store'])
+         ->name('customers.customer.store');
+    Route::put('customer/{customer}', [CustomersController::class, 'update'])
+         ->name('customers.customer.update')->where('id', '[0-9]+');
+    Route::delete('/customer/{customer}',[CustomersController::class, 'destroy'])
+         ->name('customers.customer.destroy')->where('id', '[0-9]+');
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group([
+    'prefix' => 'employees',
+], function () {
+    Route::get('/', [EmployeesController::class, 'index'])
+         ->name('employees.employee.index');
+    Route::get('/create', [EmployeesController::class, 'create'])
+         ->name('employees.employee.create');
+    Route::get('/show/{employee}',[EmployeesController::class, 'show'])
+         ->name('employees.employee.show')->where('id', '[0-9]+');
+    Route::get('/{employee}/edit',[EmployeesController::class, 'edit'])
+         ->name('employees.employee.edit')->where('id', '[0-9]+');
+    Route::post('/', [EmployeesController::class, 'store'])
+         ->name('employees.employee.store');
+    Route::put('employee/{employee}', [EmployeesController::class, 'update'])
+         ->name('employees.employee.update')->where('id', '[0-9]+');
+    Route::delete('/employee/{employee}',[EmployeesController::class, 'destroy'])
+         ->name('employees.employee.destroy')->where('id', '[0-9]+');
+});

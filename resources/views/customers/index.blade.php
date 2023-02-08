@@ -19,20 +19,20 @@
         <div class="panel-heading clearfix">
 
             <div class="pull-left">
-                <h4 class="mt-5 mb-5">Products</h4>
+                <h4 class="mt-5 mb-5">ข้อมูลลูกค้า</h4>
             </div>
 
             <div class="btn-group btn-group-sm pull-right" role="group">
-                <a href="{{ route('products.product.create') }}" class="btn btn-success" title="Create New Product">
+                <a href="{{ route('customers.customer.create') }}" class="btn btn-success" title="Create New Customer">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </a>
             </div>
 
         </div>
         
-        @if(count($products) == 0)
+        @if(count($customers) == 0)
             <div class="panel-body text-center">
-                <h4>No Products Available.</h4>
+                <h4>No Customers Available.</h4>
             </div>
         @else
         <div class="panel-body panel-body-with-table">
@@ -41,31 +41,37 @@
                 <table class="table table-striped ">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
-
+                            <th>ชื่อ</th>
+                            <th>นามสกุล</th>                                                        
+                            <th>เบอร์โทรศัพท์</th>                                                                                    
+                            <th>อีเมล</th>
+                            <th>ชื่อผู้ใช้</th>                            
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($products as $product)
+                    @foreach($customers as $customer)
                         <tr>
-                            <td>{{ $product->productName }}</td>
-
+                            <td>{{ $customer->firstName }}</td>
+                            <td>{{ $customer->lastName }}</td>                            
+                            <td>{{ $customer->mobilePhone }}</td>                        
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->username }}</td>                            
                             <td>
 
-                                <form method="POST" action="{!! route('products.product.destroy', $product->productID) !!}" accept-charset="UTF-8">
+                                <form method="POST" action="{!! route('customers.customer.destroy', $customer->custID) !!}" accept-charset="UTF-8">
                                 <input name="_method" value="DELETE" type="hidden">
                                 {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                        <a href="{{ route('products.product.show', $product->productID ) }}" class="btn btn-info" title="Show Product">
+                                        <a href="{{ route('customers.customer.show', $customer->custID ) }}" class="btn btn-info" title="Show Customer">
                                             <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
                                         </a>
-                                        <a href="{{ route('products.product.edit', $product->productID ) }}" class="btn btn-primary" title="Edit Product">
+                                        <a href="{{ route('customers.customer.edit', $customer->custID ) }}" class="btn btn-primary" title="Edit Customer">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>
 
-                                        <button type="submit" class="btn btn-danger" title="Delete Product" onclick="return confirm(&quot;Click Ok to delete Product.&quot;)">
+                                        <button type="submit" class="btn btn-danger" title="Delete Customer" onclick="return confirm(&quot;Click Ok to delete Customer.&quot;)">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
                                     </div>
@@ -82,7 +88,7 @@
         </div>
 
         <div class="panel-footer">
-            {!! $products->render() !!}
+            {!! $customers->render() !!}
         </div>
         
         @endif

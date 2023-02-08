@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::get('profile/{id}', [App\Http\Controllers\API\CustomerController::class, 'profile']);
+Route::post('foodchat', [App\Http\Controllers\API\ChatbotSDKController::class, 'foodchat']);
+
 
 
 Route::get('product', [App\Http\Controllers\API\ProductController::class, 'index']);
-
 Route::post('login', [App\Http\Controllers\API\CustomerController::class, 'login']);
 Route::post('register', [App\Http\Controllers\API\CustomerController::class, 'register']);
 Route::get('profile/{id}', [App\Http\Controllers\API\CustomerController::class, 'profile']);
@@ -47,3 +48,17 @@ Route::put('payment/{id}', [App\Http\Controllers\API\PaymentController::class, '
 
 
 //Route::resource('photos', [App\Http\Controllers\API\CustomerController::class, 'update']);
+Route::group([
+    'prefix' => 'products',
+], function () {
+    Route::get('/', [ProductsController::class, 'index'])
+         ->name('api.products.product.index');
+    Route::get('/show/{product}',[ProductsController::class, 'show'])
+         ->name('api.products.product.show')->where('id', '[0-9]+');
+    Route::post('/', [ProductsController::class, 'store'])
+         ->name('api.products.product.store');    
+    Route::put('product/{product}', [ProductsController::class, 'update'])
+         ->name('api.products.product.update')->where('id', '[0-9]+');
+    Route::delete('/product/{product}',[ProductsController::class, 'destroy'])
+         ->name('api.products.product.destroy')->where('id', '[0-9]+');
+});

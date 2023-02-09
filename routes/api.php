@@ -19,7 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('foodchat', [App\Http\Controllers\API\ChatbotController::class, 'foodchat']);
+Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'chatbot']);
+//Route::post('chatbot', [App\Http\Controllers\API\ChatbotController::class, 'chatbot']);
 
 
 

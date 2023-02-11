@@ -1,14 +1,15 @@
 #Import python package
 import pandas as pd
-import mysql.connector as sql
-import cx_Oracle
 import joblib
+#import mysql.connector as sql
+#import cx_Oracle
 import warnings
 from sklearn.neural_network import MLPRegressor
 warnings.filterwarnings("ignore")
 
+
 #Load data
-X = pd.read_csv("C:\\xampp\\htdocs\\shoppee\\app\\python\\price_house.csv")
+X = pd.read_csv("price_house.csv")
 
 # conn=sql.connect(host="localhost", database="shopdee", 
 #                  user="root", password="")
@@ -20,19 +21,19 @@ X = pd.read_csv("C:\\xampp\\htdocs\\shoppee\\app\\python\\price_house.csv")
 # query = 'select * from houseprice'
 # X = pd.read_sql(query,conn)
 
-y=X.iloc[:,len(X.columns)-1]
-x=X.iloc[:,1:len(X.columns)-1]
-
+x=X.iloc[:, 1:len(X.columns)-1]
+y=X.iloc[:, len(X.columns)-1]
 
 #Build Model
 net = MLPRegressor(solver='adam',activation='relu',
                         hidden_layer_sizes=3, 
-                        learning_rate_init=0.2,max_iter=1000)   
+                        learning_rate_init=0.01,
+                        max_iter=1000)   
 net.fit(x,y)
 
 
 #export model
-path='C:\\xampp\\htdocs\\shoppee\\app\\python\\train_mlp.pkl'
+path='house_price_model.pkl'
 joblib.dump(net, path)
 
 print('success')

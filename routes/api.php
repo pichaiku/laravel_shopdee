@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Route::post('chatbot', [App\Http\Controllers\API\LineController::class, 'register']);
-Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'databaseChatbot']);
+Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'AIChatbot']);
 //Route::post('chatbot', [App\Http\Controllers\API\ChatbotController::class, 'chatbot']);
 
 

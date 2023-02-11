@@ -17,7 +17,59 @@ use Illuminate\Support\Facades\Log;
 use DB;
 
 class LineBotController extends Controller
-{    
+{   
+    public function AIChatbot(Request $request)
+    {
+        //Define access token and chanel scret
+        $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
+        $channel_secret = "c3cc836abbc74e85377d551f6b8cf3d2";
+
+        //Connect Line API
+        $httpClient = new CurlHTTPClient($access_token);
+        $bot = new LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+        $signature = $request->header('X-Line-Signature');
+        $body = $request->getContent();
+        try {
+            $events = $bot->parseEventRequest($body, $signature);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 400);
+        }
+        
+        //Check type of message [ text, image, video, etc.]
+        foreach ($events as $event) {
+            if ($event instanceof TextMessage) {
+                                
+                $replyToken = $event->getReplyToken();//Token ที่ใช้ส่งข้อความกลับ
+                $message = $event->getText();//ข้อความที่ส่งมาจาก users    
+                
+                if($message == "สวัสดี" || $message == "สวัสดีครับ" || $message == "สวัสดีค่ะ"){
+                    //Get user profile
+                    $profile = $bot->getProfile($event->getUserId());                        
+                    $userData = $profile->getJSONDecodedBody();                
+                                        
+                    $text1 = "สวัสดีครับคุณ ".$userData['displayName'];
+                    $text2 = "กรุณาระบุ ปีที่สร้าง-อายุบ้าน-ระยะทางจาก BTS-จำนวนมินิมาร์ต";
+                    $replyData = new TextMessageBuilder($text1, $text2); 
+
+                }else{                                
+                    list($year,$age,$distance,$minimart) = explode("-",$message);                        
+                    $path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\house_price_predict.py";                    
+                            
+                    ob_start();
+                    passthru("python $path $year $age $distance $minimart");         
+                    $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+                    $replyData = new TextMessageBuilder("ราคาประเมินบ้าน คือ $result บาท");                                
+                }
+
+                //Replay a message to a user                
+                $response = $bot->replyMessage($replyToken, $replyData);         
+                
+            }
+        }    
+                
+    }  
+
     public function databaseChatbot(Request $request)
     {
         //Define access token and chanel scret

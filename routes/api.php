@@ -19,7 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'chatbot']);
+//Route::post('chatbot', [App\Http\Controllers\API\LineController::class, 'register']);
+Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'databaseChatbot']);
 //Route::post('chatbot', [App\Http\Controllers\API\ChatbotController::class, 'chatbot']);
 
 

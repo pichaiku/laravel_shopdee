@@ -68,7 +68,7 @@ class OrderController extends Controller
         GROUP BY `orders`.`orderID`, `orderDate`, `shipDate`, 
             `receiveDate`, `orders`.`custID`, `statusID`,
             customer.firstName,customer.lastName,customer.address,customer.mobilePhone      
-        ORDER BY `orders`.orderID ASC ";
+         ";
           
         return DB::select($sql);        
     }

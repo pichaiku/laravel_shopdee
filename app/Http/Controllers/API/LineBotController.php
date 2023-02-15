@@ -90,7 +90,7 @@ class LineBotController extends Controller
                     $replyData = new TextMessageBuilder("ราคาประเมินบ้าน คือ $result บาท");                                
                 }
 
-                //Replay a message to a user                
+                //Reply a message to a user                
                 $response = $bot->replyMessage($replyToken, $replyData);         
                 
             }
@@ -138,9 +138,9 @@ class LineBotController extends Controller
                 VALUES ('$userID','$message','$logDate')";
                 DB::insert($sql);  
 
-                //Replay a message to a user
+                //Reply a message to a user
                 $replyData = new TextMessageBuilder("บันทึกข้อมูลเรียบร้อยแล้ว");
-                $response = $bot->replyMessage($replyToken, $replyData);         
+                $bot->replyMessage($replyToken, $replyData);         
                 
             }
         }    
@@ -148,154 +148,45 @@ class LineBotController extends Controller
     }  
 
     public function imageChatbot(Request $request)
-    {
-
+    {        
         $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
         $channel_secret = "c3cc836abbc74e85377d551f6b8cf3d2";
-
+        
         $httpClient = new CurlHTTPClient($access_token);
         $bot = new LINEBot($httpClient, array('channelSecret' => $channel_secret));
-         
-        // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
-        $content = file_get_contents('php://input');
-         
-        // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-        $events = json_decode($content, true);
-        if(!is_null($events)){
-            // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-            $replyToken = $events['events'][0]['replyToken'];
-            $userID = $events['events'][0]['source']['userId'];
-            $sourceType = $events['events'][0]['source']['type'];
-            $is_postback = NULL;
-            $is_message = NULL;
-            if(isset($events['events'][0]) && array_key_exists('message',$events['events'][0])){
-                $is_message = true;
-                $typeMessage = $events['events'][0]['message']['type'];
-                //$userMessage = $events['events'][0]['message']['text'];     
-                $idMessage = $events['events'][0]['message']['id']; 
+
+        $content = $request->getContent();
+        $signature = $request->header('X-Line-Signature');        
+        $events = $bot->parseEventRequest($content, $signature);
+                  
+
+        $replyToken = $events[0]->getReplyToken();        
+        $typeMessage = $events[0]->getMessageType();  
+        $idMessage = $events[0]->getMessageId(); 
+
+        if($typeMessage == "image"){
+                
+            $python_file_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\line_save_image.py";                    
+            $image_file_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\";
+                        
+            ob_start();
+            passthru("python $python_file_path $access_token $idMessage $image_file_path");
+            $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+            
+            if($result=="true"){
+                $replyData = new TextMessageBuilder("บันทึกไฟล์ภาพเรียบร้อยแล้ว");  
+            }else{
+                $replyData = new TextMessageBuilder("ไม่สามารถบันทึกไฟล์รูปภาพได้");
             }
-            if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
-                $is_postback = true;
-                $dataPostback = NULL;
-                parse_str($events['events'][0]['postback']['data'],$dataPostback);;
-                $paramPostback = NULL;
-                if(array_key_exists('params',$events['events'][0]['postback'])){
-                    if(array_key_exists('date',$events['events'][0]['postback']['params'])){
-                        $paramPostback = $events['events'][0]['postback']['params']['date'];
-                    }
-                    if(array_key_exists('time',$events['events'][0]['postback']['params'])){
-                        $paramPostback = $events['events'][0]['postback']['params']['time'];
-                    }
-                    if(array_key_exists('datetime',$events['events'][0]['postback']['params'])){
-                        $paramPostback = $events['events'][0]['postback']['params']['datetime'];
-                    }                       
-                }
-            }   
-            if(!is_null($is_postback)){
-                $textReplyMessage = "ข้อความจาก Postback Event Data = ";
-                if(is_array($dataPostback)){
-                    $textReplyMessage.= json_encode($dataPostback);
-                }
-                if(!is_null($paramPostback)){
-                    $textReplyMessage.= " \r\nParams = ".$paramPostback;
-                }
-                $replyData = new TextMessageBuilder($textReplyMessage);     
-            }
-            if(!is_null($is_message)){
-                switch ($typeMessage){
-                    case 'text':
-                        $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
-                        switch ($userMessage) {
-                            case "p":
-                                // เรียกดูข้อมูลโพรไฟล์ของ Line user โดยส่งค่า userID ของผู้ใช้ LINE ไปดึงข้อมูล
-                                $response = $bot->getProfile($userID);
-                                if ($response->isSucceeded()) {
-                                    // ดึงค่ามาแบบเป็น JSON String โดยใช้คำสั่ง getRawBody() กรณีเป้นข้อความ text
-                                    $textReplyMessage = $response->getRawBody(); // return string            
-                                    $replyData = new TextMessageBuilder($textReplyMessage);         
-                                    break;              
-                                }
-                                // กรณีไม่สามารถดึงข้อมูลได้ ให้แสดงสถานะ และข้อมูลแจ้ง ถ้าไม่ต้องการแจ้งก็ปิดส่วนนี้ไปก็ได้
-                                $failMessage = json_encode($response->getHTTPStatus() . ' ' . $response->getRawBody());
-                                $replyData = new TextMessageBuilder($failMessage);
-                                break;              
-                            case "สวัสดี":
-                                // เรียกดูข้อมูลโพรไฟล์ของ Line user โดยส่งค่า userID ของผู้ใช้ LINE ไปดึงข้อมูล
-                                $response = $bot->getProfile($userID);
-                                if ($response->isSucceeded()) {
-                                    // ดึงค่าโดยแปลจาก JSON String .ให้อยู่ใรูปแบบโครงสร้าง ตัวแปร array 
-                                    $userData = $response->getJSONDecodedBody(); // return array     
-                                    // $userData['userId']
-                                    // $userData['displayName']
-                                    // $userData['pictureUrl']
-                                    // $userData['statusMessage']
-                                    $textReplyMessage = 'สวัสดีครับ คุณ '.$userData['displayName'];             
-                                    $replyData = new TextMessageBuilder($textReplyMessage);         
-                                    break;              
-                                }
-                                // กรณีไม่สามารถดึงข้อมูลได้ ให้แสดงสถานะ และข้อมูลแจ้ง ถ้าไม่ต้องการแจ้งก็ปิดส่วนนี้ไปก็ได้
-                                $failMessage = json_encode($response->getHTTPStatus() . ' ' . $response->getRawBody());
-                                $replyData = new TextMessageBuilder($failMessage);
-                                break;                                                                                                                                                                                                                                          
-                            default:
-                                $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
-                                $replyData = new TextMessageBuilder($textReplyMessage);         
-                                break;                                      
-                        }
-                        break;      
-                    case (preg_match('/image|audio|video/',$typeMessage) ? true : false) :
-                        $response = $bot->getMessageContent($idMessage);
-                        if ($response->isSucceeded()) {
-                            // คำสั่ง getRawBody() ในกรณีนี้ จะได้ข้อมูลส่งกลับมาเป็น binary 
-                            // เราสามารถเอาข้อมูลไปบันทึกเป็นไฟล์ได้
-                            $dataBinary = $response->getRawBody(); // return binary
-                            // ดึงข้อมูลประเภทของไฟล์ จาก header
-                            $fileType = $response->getHeader('Content-Type');    
-                            switch ($fileType){
-                                case (preg_match('/^image/',$fileType) ? true : false):
-                                    list($typeFile,$ext) = explode("/",$fileType);
-                                    $ext = ($ext=='jpeg' || $ext=='jpg')?"jpg":$ext;
-                                    $fileNameSave = time().".".$ext;
-                                    break;
-                                case (preg_match('/^audio/',$fileType) ? true : false):
-                                    list($typeFile,$ext) = explode("/",$fileType);
-                                    $fileNameSave = time().".".$ext;                        
-                                    break;
-                                case (preg_match('/^video/',$fileType) ? true : false):
-                                    list($typeFile,$ext) = explode("/",$fileType);
-                                    $fileNameSave = time().".".$ext;                                
-                                    break;                                                      
-                            }
-                            $botDataFolder = 'botdata/'; // โฟลเดอร์หลักที่จะบันทึกไฟล์
-                            $botDataUserFolder = $botDataFolder.$userID; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
-                            if(!file_exists($botDataUserFolder)) { // ตรวจสอบถ้ายังไม่มีให้สร้างโฟลเดอร์ userId
-                                mkdir($botDataUserFolder, 0777, true);
-                            }   
-                            // กำหนด path ของไฟล์ที่จะบันทึก
-                            $fileFullSavePath = $botDataUserFolder.'/'.$fileNameSave;
-                            file_put_contents($fileFullSavePath,$dataBinary); // ทำการบันทึกไฟล์
-                            $textReplyMessage = "บันทึกไฟล์เรียบร้อยแล้ว $fileNameSave";
-                            $replyData = new TextMessageBuilder($textReplyMessage);
-                            break;
-                        }
-                        $failMessage = json_encode($idMessage.' '.$response->getHTTPStatus() . ' ' . $response->getRawBody());
-                        $replyData = new TextMessageBuilder("xx".$response->getHeader('Content-Type'));  
-                        break;                                                      
-                    default:
-                        $textReplyMessage = json_encode($events);
-                        $replyData = new TextMessageBuilder($textReplyMessage);         
-                        break;  
-                }
-            }
+                                    
+        }else{            
+            $replyData = new TextMessageBuilder("กรุณาเลือกรูปสินค้า".$idMessage);
         }
-        $response = $bot->replyMessage($replyToken,$replyData);
-        if ($response->isSucceeded()) {
-            echo 'Succeeded!';
-            return;
-        }
-         
-        // Failed
-        echo $response->getHTTPStatus() . ' ' . $response->getRawBody();     
+
+            
+        //Reply a message to a user
+        $bot->replyMessage($replyToken,$replyData);
+        
     }   
 
 

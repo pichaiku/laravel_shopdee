@@ -16,20 +16,18 @@ use App\Http\Controllers\EmployeesController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route::get('/sdfs', function () {
-//     return view('product');
-// });
- 
-// Route::get('/product', [App\Http\Controllers\ProductController::class, 'show']);
+Route::get('/pushbot', function () {
+     return view('pushbot');
+ });
+ Route::post('/pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushbot']);
 
-Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index']);
- 
 
 Auth::routes();
-
+Route::get('/', function () {
+    return view('welcome');
+});
+ 
+Route::get('/product', [App\Http\Controllers\ProductController::class, 'show']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group([

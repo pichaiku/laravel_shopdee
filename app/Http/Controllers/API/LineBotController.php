@@ -18,6 +18,34 @@ use DB;
 
 class LineBotController extends Controller
 {   
+
+    public function pushBot(Request $request)
+    {
+        //Define access token and chanel scret
+        $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
+        $channel_secret = "c3cc836abbc74e85377d551f6b8cf3d2";
+
+        //Connect Line API
+        $httpClient = new CurlHTTPClient($access_token);
+        $bot = new LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+                
+        //User ID ของคนที่ต้องการให้ bot ส่งข้อความไปหา
+        $users = array();
+        $users[0] = "U1cf02018781388e0e28ba58444456bd6";
+        //$users[1] = ""; 
+        //$users[2] = "";
+        
+        //ข้อความที่ bot ส่งหา users
+        $text1 = "ช้อปดี มีโปรโมชันพิเศษสำหรับคุณ";
+        $text2 = "ซื้อเสื้อแขนสั้นวันนี้ รับฟรีอีก 1 ตัว";
+        $messageData = new TextMessageBuilder($text1, $text2);        
+                
+        //Push messages to a user
+        //$bot->pushMessage("U1cf02018781388e0e28ba58444456bd6",$messageData);  
+        $bot->multicast($users,$messageData);                  
+                
+    }  
+
     public function AIChatbot(Request $request)
     {
         //Define access token and chanel scret

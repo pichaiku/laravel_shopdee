@@ -19,9 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::post('chatbot', [App\Http\Controllers\API\LineController::class, 'register']);
-Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'AIChatbot']);
-//Route::post('chatbot', [App\Http\Controllers\API\ChatbotController::class, 'chatbot']);
+Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'profileChatbot']);
+Route::post('pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushBot']);
 
 
 
@@ -43,10 +42,10 @@ Route::get('topFiveProduct/{id}', [App\Http\Controllers\API\ReportController::cl
 Route::get('cart/{id}', [App\Http\Controllers\API\OrderController::class, 'cart']);
 
 //payment
-Route::get('payment', [App\Http\Controllers\API\PaymentController::class, 'index']);
-Route::get('payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'view']);
-Route::post('payment', [App\Http\Controllers\API\PaymentController::class, 'create']);
-Route::put('payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'update']);
+Route::post('payment', [App\Http\Controllers\API\PaymentController::class, 'payment']);
+// Route::get('payment', [App\Http\Controllers\API\PaymentController::class, 'index']);
+// Route::get('payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'view']);
+// Route::put('payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'update']);
 
 
 //Route::resource('photos', [App\Http\Controllers\API\CustomerController::class, 'update']);

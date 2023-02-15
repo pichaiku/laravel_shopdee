@@ -75,7 +75,8 @@ class OrderController extends Controller
 
     //function confirm order
     public function confirmorder(Request $request){
-        $orderDate = date("Y-m-d H:i:s");
+        $orderDate = date("y-m-d H:i:s");
+        
         $sql = "UPDATE orders 
                 SET orderDate = '$orderDate', statusID = 1 
                 WHERE orderID = ".$request->get("orderID");

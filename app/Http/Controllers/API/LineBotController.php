@@ -46,7 +46,61 @@ class LineBotController extends Controller
                 
     }  
 
-    public function AIChatbot(Request $request)
+    public function detectMask(Request $request)
+    {
+        //Define access token and chanel scret
+        $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
+        $channel_secret = "c3cc836abbc74e85377d551f6b8cf3d2";
+
+        //Connect Line API
+        $httpClient = new CurlHTTPClient($access_token);
+        $bot = new LINEBot($httpClient, ['channelSecret' => $channel_secret]);
+
+        $signature = $request->header('X-Line-Signature');
+        $body = $request->getContent();
+        try {
+            $events = $bot->parseEventRequest($body, $signature);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 400);
+        }
+        
+        //Check type of message [ text, image, video, etc.]
+        foreach ($events as $event) {
+            if ($event instanceof TextMessage) {
+                                
+                $replyToken = $event->getReplyToken();//Token ที่ใช้ส่งข้อความกลับ
+                $message = $event->getText();//ข้อความที่ส่งมาจาก users    
+                
+                if($message == "สวัสดี" || $message == "สวัสดีครับ" || $message == "สวัสดีค่ะ"){
+                    //Get user profile
+                    $profile = $bot->getProfile($event->getUserId());                        
+                    $userData = $profile->getJSONDecodedBody();                
+                                        
+                    $text1 = "สวัสดีครับคุณ ".$userData['displayName'];
+                    $text2 = "กรุณาเลือกรูปที่ต้องการสั่งซื้อสินค้า";
+                    $replyData = new TextMessageBuilder($text1, $text2); 
+
+                }else{                                                                          
+                    $python_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect.py";                    
+                    $model_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect\\keras_model.h5";
+                    $label_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect\\labels.txt";
+                    $image_path = "C:\\Users\\hp\Downloads\\pic1.png";
+                            
+                    ob_start();
+                    passthru("python $python_path $model_path $label_path $image_path");         
+                    $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+                    $replyData = new TextMessageBuilder("รูปที่คุณเลือก คือ $result");
+                }
+
+                //Reply a message to a user                
+                $response = $bot->replyMessage($replyToken, $replyData);         
+                
+            }
+        }    
+                
+    }  
+
+    public function predictHousePrice(Request $request)
     {
         //Define access token and chanel scret
         $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
@@ -81,11 +135,12 @@ class LineBotController extends Controller
                     $replyData = new TextMessageBuilder($text1, $text2); 
 
                 }else{                                
-                    list($year,$age,$distance,$minimart) = explode("-",$message);                        
-                    $path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\house_price_predict.py";                    
+                    list($age,$distance,$minimart) = explode("-",$message);                        
+                    $python_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\house_price_predict.py";                    
+                    $model_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\house_price_model.pkl";
                             
                     ob_start();
-                    passthru("python $path $year $age $distance $minimart");         
+                    passthru("python $python_path $model_path $age $distance $minimart");         
                     $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
                     $replyData = new TextMessageBuilder("ราคาประเมินบ้าน คือ $result บาท");                                
                 }
@@ -168,7 +223,7 @@ class LineBotController extends Controller
                 
             $python_file_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\line_save_image.py";                    
             $image_file_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\";
-                        
+
             ob_start();
             passthru("python $python_file_path $access_token $idMessage $image_file_path");
             $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
@@ -180,7 +235,7 @@ class LineBotController extends Controller
             }
                                     
         }else{            
-            $replyData = new TextMessageBuilder("กรุณาเลือกรูปสินค้า".$idMessage);
+            $replyData = new TextMessageBuilder($idMessage);
         }
 
             

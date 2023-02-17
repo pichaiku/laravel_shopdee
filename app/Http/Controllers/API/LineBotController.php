@@ -221,6 +221,7 @@ class LineBotController extends Controller
 
         if($typeMessage == "image"){
                 
+           
             $python_file_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\line_save_image.py";                    
             $image_file_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\";
 
@@ -410,6 +411,6 @@ class LineBotController extends Controller
 
 
         
-        return response('OK', 200);
+        return response('OK', 200);        
     }    
 }

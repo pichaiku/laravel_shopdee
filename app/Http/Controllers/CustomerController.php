@@ -19,6 +19,10 @@ class CustomerController extends Controller
         return view("customer.index", compact("customers"));
     }
 
+    public function showToken(){
+        echo csrf_token(); 
+  
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -45,6 +49,10 @@ class CustomerController extends Controller
         $password = $request->get("password");
         $firstName = $request->get("firstName");
         $lastName = $request->get("lastName");
+
+        // $sql = "INSERT INTO customer(username, password,firstName,lastName)
+        //         VALUES($username, $password,$firstName,$lastName)";
+        // $DB->insert();
 
         $customer = new Customer();
         $customer->username = $username;
@@ -87,7 +95,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request, $id)
     {        
         $username = $request->get("username");
         $password = $request->get("password");
@@ -101,7 +109,7 @@ class CustomerController extends Controller
         $customer->lastName = $lastName;
         $customer->save();
 
-        return redirect("/customer")->with("สำเร็จ","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
+        return redirect("/customer")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
     }
 
     /**

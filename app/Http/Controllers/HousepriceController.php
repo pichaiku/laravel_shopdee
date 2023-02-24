@@ -12,7 +12,7 @@ class HousePriceController extends Controller
     }
 
     public function predict(HousePriceRequest $request){
-        
+        echo "cc";die();
         $python_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\house_price_predict.py";        
         $model_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\house_price_model.pkl";
         $age = $request->get('age');

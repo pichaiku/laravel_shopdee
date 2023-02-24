@@ -21,9 +21,10 @@
     </div>
     @endif
 
-    <h2>สมัครสมาชิก</h2>
+    <h2>แก้ไขข้อมูลลูกค้า</h2>
     <div class="card">
-      <form method="post" class="card-body" action="{{ route('customer.store') }}">
+      
+      <form method="post" class="card-body" action="/customer/<?=request()->segment(count(request()->segments())-1)?>">
       @csrf
         <div class="mb-3">
           <label for="username" class="form-label">ชื่อผู้ใช้:</label>
@@ -45,7 +46,7 @@
           <input type="text" class="form-control" id="lastName" name="lastName" value="{{$customer->lastName}}" placeholder="กรุณาระบุนามสกุล" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">สมัครสมาชิก</button>
+        <button type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
 
       </form>
 

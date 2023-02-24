@@ -131,7 +131,7 @@ class LineBotController extends Controller
                     $userData = $profile->getJSONDecodedBody();                
                                         
                     $text1 = "สวัสดีครับคุณ ".$userData['displayName'];
-                    $text2 = "กรุณาระบุ ปีที่สร้าง-อายุบ้าน-ระยะทางจาก BTS-จำนวนมินิมาร์ต";
+                    $text2 = "กรุณาระบุ อายุบ้าน-ระยะทางจาก BTS-จำนวนมินิมาร์ต";
                     $replyData = new TextMessageBuilder($text1, $text2); 
 
                 }else{                                

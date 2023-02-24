@@ -28,27 +28,30 @@
 </head>
 <body>
 
-    @if(session()->get('success'))
-      <script>    
-        Swal.fire(
-          'บันทึกข้อมูลเรียบร้อยแล้ว',
-          '',
-          'success'
-        )
-      </script>
-    @endif
+@if(session()->get('success'))
+  <script>    
+    Swal.fire(
+      'บันทึกข้อมูลเรียบร้อยแล้ว',
+      '',
+      'success'
+    )
+  </script>
+@endif
 
-    <!-- @if(session()->get('success'))
-    <div class="alert alert-success">
-      {{ session()->get('success') }}  
-    </div><br />
-    @endif
-       -->
+
+      
 <div class="container">
   <div class="alert alert-secondary">
     <h2>ข้อมูลลูกค้า</h2>            
   </div>
-  <a href="{{ route('customer.create') }}" class="btn btn-primary mb-3">เพิ่มข้อมูล</a>
+  
+  <!-- @if(session()->get('success'))
+  <div class="alert alert-success">
+    {{ session()->get('success') }}  
+  </div><br />
+  @endif -->
+    
+  <a href="{{ route('customer.create') }}" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
 
     <table id="table" class="table table-striped" style="width:100%">
     <thead>

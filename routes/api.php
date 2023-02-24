@@ -15,12 +15,15 @@ use App\Http\Controllers\Api\ProductsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('houseprice/predict', [App\Http\Controllers\API\HousePriceController::class, 'predict']);
 
+
+
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'imageChatbot']);
 Route::post('pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushBot']);

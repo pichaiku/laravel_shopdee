@@ -16,7 +16,6 @@ use App\Http\Controllers\EmployeesController;
 |
 */
 
-Route::get('/myproject', [App\Http\Controllers\CustomerController::class, 'showToken'])->name('customer.showToken');
 Route::get('/showToken', [App\Http\Controllers\CustomerController::class, 'showToken'])->name('customer.showToken');
 Route::get('/customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('customer.index');
 Route::get('/customer/create', [App\Http\Controllers\CustomerController::class, 'create'])->name('customer.create');
@@ -39,7 +38,7 @@ Route::get('/pushbot', function () {
  Route::post('/pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushbot']);
  
 
-Auth::routes();
+//Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });

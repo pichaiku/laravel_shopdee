@@ -15,19 +15,22 @@ use App\Http\Controllers\Api\ProductsController;
 |
 */
 
+Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'exam']);
+Route::post('pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushBot']);
 
+
+Route::post('car/write', [App\Http\Controllers\API\IotController::class, 'write']);
+Route::get('car/read', [App\Http\Controllers\API\IotController::class, 'read']);
+Route::get('car/control', [App\Http\Controllers\API\IotController::class, 'control']);
+
+Route::post('exam/store', [App\Http\Controllers\API\BookController::class, 'store']);
+Route::post('exam/update/{id}', [App\Http\Controllers\API\BookController::class, 'update']);
+Route::get('exam/show/{id}', [App\Http\Controllers\API\BookController::class, 'show']);
 Route::post('houseprice/predict', [App\Http\Controllers\API\HousePriceController::class, 'predict']);
-
-
-
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'imageChatbot']);
-Route::post('pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushBot']);
-
 
 Route::get('product', [App\Http\Controllers\API\ProductController::class, 'index']);
 Route::post('login', [App\Http\Controllers\API\CustomerController::class, 'login']);

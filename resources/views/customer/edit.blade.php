@@ -28,7 +28,7 @@
       @csrf
         <div class="mb-3">
           <label for="username" class="form-label">ชื่อผู้ใช้:</label>
-          <input type="text" class="form-control" id="username"  name="username" value="{{$customer->username}}" placeholder="กรุณาระบุชื่อผู้ใช้" required>
+          <input type="number" min="1" max="100" class="form-control" id="username"  name="username" value="{{$customer->username}}" placeholder="กรุณาระบุชื่อผู้ใช้" required>
         </div>
 
         <div class="mb-3">

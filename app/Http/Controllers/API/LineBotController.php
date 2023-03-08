@@ -201,8 +201,7 @@ class LineBotController extends Controller
         }    
                 
     }  
-
-    public function imageChatbot(Request $request)
+    public function exam(Request $request)
     {        
         $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
         $channel_secret = "c3cc836abbc74e85377d551f6b8cf3d2";
@@ -218,9 +217,59 @@ class LineBotController extends Controller
         $replyToken = $events[0]->getReplyToken();        
         $typeMessage = $events[0]->getMessageType();  
         $idMessage = $events[0]->getMessageId(); 
+        
+        if($typeMessage == "image"){
+                           
+            $python_file_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\line_save_image.py";                    
+            $image_file_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\";
+
+            ob_start();
+            passthru("python $python_file_path $access_token $idMessage $image_file_path");
+            $image_path = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+            
+            $python_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect.py";                    
+            $model_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect\\keras_model.h5";
+            $label_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect\\labels.txt";
+            //$image_path = "C:\\Users\\hp\Downloads\\pic1.png";
+                    
+            ob_start();
+            passthru("python $python_path $model_path $label_path $image_path");         
+            $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+            $replyData = new TextMessageBuilder("รูปที่คุณเลือก คือ $result");
+                                    
+        }else{            
+            LOG::info("xxxx");
+            $replyData = new TextMessageBuilder($idMessage);
+        }
+
+            
+        //Reply a message to a user
+        $bot->replyMessage($replyToken,$replyData);
+        
+    }     
+
+    public function imageChatbot(Request $request)
+    {        
+        LOG::info("x1");
+        $access_token = "nMG7V+hlPWK+9iZAu+fp6ITOZugvpV6D2mxFqtpbd3FDHlW4x25pTo+6ydMOFrGEeQRNLLt2aXQNykt2WLHxOv7RZiLsCuiVzK3UNEh08JmGzHBjcntwSRqt/6EwQRVKcaXA2zwNT6tazsCmQ2ReFgdB04t89/1O/w1cDnyilFU=";
+        $channel_secret = "c3cc836abbc74e85377d551f6b8cf3d2";
+        
+        $httpClient = new CurlHTTPClient($access_token);
+        $bot = new LINEBot($httpClient, array('channelSecret' => $channel_secret));
+
+        LOG::info("x2");
+        $content = $request->getContent();
+        $signature = $request->header('X-Line-Signature');        
+        $events = $bot->parseEventRequest($content, $signature);
+                  
+
+        $replyToken = $events[0]->getReplyToken();        
+        $typeMessage = $events[0]->getMessageType();  
+        $idMessage = $events[0]->getMessageId(); 
+        LOG::info("x3");
 
         if($typeMessage == "image"){
-                
+            LOG::info("x4");
            
             $python_file_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\line_save_image.py";                    
             $image_file_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\";

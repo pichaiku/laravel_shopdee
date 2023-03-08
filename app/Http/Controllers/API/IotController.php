@@ -22,12 +22,17 @@ class IotController extends Controller
 
     }
 
-    public function slot(){        
+    public function read(){        
         $sql = "SELECT * 
         FROM `car_parking`  
         ORDER BY slot_id";
           
         return DB::select($sql);        
+    }
+
+    public function control(){        
+        $sql = "SELECT control FROM car_remote";          
+        return DB::select($sql)[0]->control;        
     }
 
 }

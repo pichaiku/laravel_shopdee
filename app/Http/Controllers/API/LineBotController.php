@@ -219,22 +219,40 @@ class LineBotController extends Controller
         $idMessage = $events[0]->getMessageId(); 
         
         if($typeMessage == "image"){
-                           
+
+            //save image               
             $python_file_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\line_save_image.py";                    
             $image_file_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\";
 
             ob_start();
             passthru("python $python_file_path $access_token $idMessage $image_file_path");
-            $image_path = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+            $file_name = preg_replace('~[\r\n]+~', '', ob_get_clean());   
             
+            //detect image
             $python_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect.py";                    
             $model_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect\\keras_model.h5";
             $label_path = "C:\\xampp\\htdocs\\shopdee\\app\\python\\mask_detect\\labels.txt";
-            //$image_path = "C:\\Users\\hp\Downloads\\pic1.png";
+            $image_path = "C:\\xampp\\htdocs\\shopdee\\public\\assets\\line\\".$file_name;
                     
             ob_start();
             passthru("python $python_path $model_path $label_path $image_path");         
             $result = preg_replace('~[\r\n]+~', '', ob_get_clean());   
+
+            //insert log into database
+            //Cet data from a user
+            $userID = $events[0]->getUserId();//Line user id            
+            $timestamp = substr($events[0]->getTimestamp(),0,10);
+            
+            //Change timestamp to datetime
+            $date = new \DateTime("now", new \DateTimeZone("Asia/Bangkok"));
+            $date->setTimestamp($timestamp);
+            $logDate = $date->format("Y-m-d H:i:s");            
+                        
+            //Insert received message to database
+            $sql = "INSERT INTO chatlog(userID,message,logDate) 
+            VALUES ('$userID','$file_name','$logDate')";
+            DB::insert($sql);              
+
             $replyData = new TextMessageBuilder("รูปที่คุณเลือก คือ $result");
                                     
         }else{            

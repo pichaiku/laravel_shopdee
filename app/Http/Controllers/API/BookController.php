@@ -8,7 +8,8 @@ class BookController extends Controller
 {   
     public function store(Request $request)
     {
-        $bookName = $request->get('bookName');        
+        $bookName = $request->input('bookName');    
+        echo $bookName."xx";die();    
         $amount = $request->get('amount');
         $price = $request->get('price');
         $sql = "INSERT INTO book (bookName, amount, price)VALUES('$bookName', '$amount', '$price')";

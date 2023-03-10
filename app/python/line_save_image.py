@@ -34,4 +34,4 @@ with open(full_file_pth, 'wb') as fd:
         fd.write(chunk)
 
 #Return message
-print(full_file_pth)
+print(file_name)

@@ -23,7 +23,7 @@ Route::post('car/write', [App\Http\Controllers\API\IotController::class, 'write'
 Route::get('car/read', [App\Http\Controllers\API\IotController::class, 'read']);
 Route::get('car/control', [App\Http\Controllers\API\IotController::class, 'control']);
 
-Route::post('exam/store', [App\Http\Controllers\API\BookController::class, 'store']);
+Route::get('exam/store', [App\Http\Controllers\API\BookController::class, 'store']);
 Route::post('exam/update/{id}', [App\Http\Controllers\API\BookController::class, 'update']);
 Route::get('exam/show/{id}', [App\Http\Controllers\API\BookController::class, 'show']);
 Route::post('houseprice/predict', [App\Http\Controllers\API\HousePriceController::class, 'predict']);

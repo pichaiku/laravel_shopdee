@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-</head>
-<body>
-  
-  <div class="container mt-3" style="max-width: 600px;">
+@extends('layouts.admin')
+
+@section('content')
 
     <!-- @if($errors->any())
     <div class="alert alert-danger mb-3">
@@ -21,14 +11,12 @@
       </ul>
     </div>
     @endif -->
-
-    
     <div class="card">
       <div class="card-header">
       <h2>สมัครสมาชิก</h2>
       </div>
 
-      <form method="post" class="card-body" action="{{ route('customer.store') }}">
+      <form method="post" class="card-body" action="{{ route('admin.customer.store') }}">
       @csrf
         <div class="mb-3">
           <label for="username" class="form-label">ชื่อผู้ใช้:</label>          
@@ -63,8 +51,5 @@
         <button type="submit" class="btn btn-primary">สมัครสมาชิก</button>
 
       </form>
-
     </div>
-  </div>
-</body>
-</html>
+@endsection

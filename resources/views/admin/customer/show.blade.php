@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-  
-  <div class="container mt-3" style="max-width: 600px;">
+@extends('layouts.admin')
 
+@section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.customer.index') }}">หน้าหลัก</a></li>
+    <li class="breadcrumb-item active" aria-current="page">รายละเอียดลูกค้า</li>
+  </ol>
+</nav>
     <h2>รายละเอียดลูกค้า</h2>
     <div class="card">
       <div class="card-body">
@@ -36,8 +32,5 @@
         </div>
 
       </form>
-
-    </div>
-  </div>
-</body>
-</html>
+    </div>  
+@endsection

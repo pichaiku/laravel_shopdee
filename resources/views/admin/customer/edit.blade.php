@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-  
-  <div class="container mt-3" style="max-width: 600px;">
+@extends('layouts.admin')
 
-    @if($errors->any())
+@section('content')
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.customer.index') }}">หน้าหลัก</a></li>
+    <li class="breadcrumb-item active" aria-current="page">แก้ไขรายละเอียดลูกค้า</li>
+  </ol>
+</nav>
+
+    <!-- @if($errors->any())
     <div class="alert alert-danger mb-3">
       <ul>
         @foreach($errors->all() as $error)
@@ -19,16 +17,17 @@
         @endforeach
       </ul>
     </div>
-    @endif
+    @endif -->
 
     <h2>แก้ไขข้อมูลลูกค้า</h2>
     <div class="card">
+      <!-- /customer/<?=request()->segment(count(request()->segments())-1)?> -->
       
-      <form method="post" class="card-body" action="/customer/<?=request()->segment(count(request()->segments())-1)?>">
+      <form method="post" class="card-body" action="{{ route('admin.customer.update', $customer->custID) }}">
       @csrf
         <div class="mb-3">
           <label for="username" class="form-label">ชื่อผู้ใช้:</label>
-          <input type="number" min="1" max="100" class="form-control" id="username"  name="username" value="{{$customer->username}}" placeholder="กรุณาระบุชื่อผู้ใช้" required>
+          <input type="" class="form-control" id="username"  name="username" value="{{$customer->username}}" placeholder="กรุณาระบุชื่อผู้ใช้" required>
         </div>
 
         <div class="mb-3">
@@ -49,8 +48,5 @@
         <button type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
 
       </form>
-
     </div>
-  </div>
-</body>
-</html>
+@endsection

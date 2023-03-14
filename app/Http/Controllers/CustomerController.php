@@ -16,7 +16,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();        
-        return view("customer.index", compact("customers"));
+        return view("admin.customer.index", compact("customers"));
     }
 
     public function showToken(){
@@ -30,7 +30,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view("customer.create");
+        return view("admin.customer.create");
     }
 
     /**
@@ -61,7 +61,7 @@ class CustomerController extends Controller
         $customer->lastName = $lastName;
         $customer->save();
 
-        return redirect("/customer")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
+        return redirect("/admin/customer")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
     }
 
     /**
@@ -73,7 +73,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::find($id);
-        return view("customer.show", compact("customer"));
+        return view("admin.customer.show", compact("customer"));
     }
 
     /**
@@ -85,7 +85,7 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::find($id);
-        return view("customer.edit", compact("customer"));
+        return view("admin.customer.edit", compact("customer"));
     }
 
     /**
@@ -109,7 +109,7 @@ class CustomerController extends Controller
         $customer->lastName = $lastName;
         $customer->save();
 
-        return redirect("/customer")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
+        return redirect("/admin/customer")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
     }
 
     /**
@@ -122,6 +122,6 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         $customer->delete();
-        return redirect("/customer")->with("สำเร็จ","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
+        return redirect("/admin/customer")->with("สำเร็จ","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
     }
 }

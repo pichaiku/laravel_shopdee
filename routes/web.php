@@ -16,22 +16,21 @@ use App\Http\Controllers\EmployeesController;
 |
 */
 
-Route::get('/showToken', [App\Http\Controllers\CustomerController::class, 'showToken'])->name('customer.showToken');
-Route::get('/customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('customer.index');
-Route::get('/customer/create', [App\Http\Controllers\CustomerController::class, 'create'])->name('customer.create');
-Route::post('/customer', [App\Http\Controllers\CustomerController::class, 'store'])->name('customer.store');
-Route::get('/customer/{id}', [App\Http\Controllers\CustomerController::class, 'show'])->name('customer.show');
+//customer
+Route::get('/admin/customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('admin.customer.index');
+Route::get('/admin/customer/create', [App\Http\Controllers\CustomerController::class, 'create'])->name('admin.customer.create');
+Route::post('/admin/customer', [App\Http\Controllers\CustomerController::class, 'store'])->name('admin.customer.store');
+Route::get('/admin/customer/{id}', [App\Http\Controllers\CustomerController::class, 'show'])->name('admin.customer.show');
+Route::get('/admin/customer/{id}/edit', [App\Http\Controllers\CustomerController::class, 'edit'])->name('admin.customer.edit');
+Route::post('/admin/customer/{id}', [App\Http\Controllers\CustomerController::class, 'update'])->name('admin.customer.update');
+Route::delete('/admin/customer/{id}', [App\Http\Controllers\CustomerController::class, 'destroy'])->name('admin.customer.destroy');
 
-Route::get('/customer/{id}/edit', [App\Http\Controllers\CustomerController::class, 'edit'])->name('customer.edit');
-Route::post('/customer/{id}', [App\Http\Controllers\CustomerController::class, 'update'])->name('customer.update');
 
-
-Route::delete('/customer/{id}', [App\Http\Controllers\CustomerController::class, 'destroy'])->name('customer.destroy');
 
 Route::get('/houseprice', [App\Http\Controllers\HousePriceController::class, 'index'])->name('houseprice.index');
 Route::post('/houseprice/predict', [App\Http\Controllers\HousePriceController::class, 'predict'])->name('houseprice.predict');
 
-
+Route::get('/showToken', [App\Http\Controllers\CustomerController::class, 'showToken'])->name('customer.showToken');
 Route::get('/pushbot', function () {
      return view('pushbot');
  });

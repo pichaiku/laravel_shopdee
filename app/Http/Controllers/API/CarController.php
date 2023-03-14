@@ -36,7 +36,7 @@ class CarController extends Controller
         $carID = $request->get('carID');
                     
         $sql = "INSERT INTO `rent`(`rentDate`, `rentTime`, `returnDate`, `returnTime`, `totalPrice`, `custID`, `carID`) VALUES 
-        (`$rentDate`, `$rentTime`, `$returnDate`, `$returnTime`, $totalPrice, $custID, $carID)";
+        ('$rentDate', '$rentTime', '$returnDate', '$returnTime', $totalPrice, $custID, $carID)";
         DB::insert($sql);
         return response()->json(array('message'=>'success','status'=>'true'));
     }       

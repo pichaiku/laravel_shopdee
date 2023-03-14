@@ -15,6 +15,11 @@ use App\Http\Controllers\Api\ProductsController;
 |
 */
 
+Route::get('car', [App\Http\Controllers\API\CarController::class, 'index']);
+Route::get('car/show/{id}', [App\Http\Controllers\API\CarController::class, 'show']);
+Route::post('car/rent', [App\Http\Controllers\API\CarController::class, 'rent']);
+
+
 Route::post('chatbot', [App\Http\Controllers\API\LineBotController::class, 'exam']);
 Route::post('pushbot', [App\Http\Controllers\API\LineBotController::class, 'pushBot']);
 

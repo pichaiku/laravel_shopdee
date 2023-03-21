@@ -2,179 +2,126 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Employee;
-use App\Models\Position;
-use App\Models\Province;
-use App\Models\District;
-use App\Models\Subdistrict;
-use DB;
+use Illuminate\Http\Request;
+use App\Http\Requests\EmployeeRequest;
 
 class EmployeeController extends Controller
 {
-
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $search = $request->get('search');
-        if(isset($search))
-        {
-            $employees  = Employee::searchEmployee($search)->paginate(10);
-        }else{
-            $employees = Employee::paginate(10);
-        }
-        return view('employee.index', compact('employees'));
+        $employees = Employee::all();        
+        return view("admin.employee.index", compact("employees"));
     }
 
-
-
-    public function add()
+    public function showToken(){
+        echo csrf_token(); 
+  
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $emptypes = Position::all();
-        $provinces = Province::all();
-        $districts = [];
-        $subdistricts = [];
-
-        return view('employee.add', compact('emptypes','provinces','districts','subdistricts'));
+        return view("admin.employee.create");
     }
 
-
-    public function create(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(EmployeeRequest $request)
     {
-        if(!isset($request)){
-            $emptypes = Position::all();
-            $provinces = Province::all();
-            $districts = [];
-            $subdistricts = [];
-    
-            return view('employee.add', compact('emptypes','provinces','districts','subdistricts'));
-        }else{
-            /*
-            $request->validate([
-                'username'=>'required',
-                'password'=>'required',
-                'empID'=>'required',
-                'firstName'=> 'required',
-                'lastName' => 'required'
-            ]);
-            */
-            $this->validate($request, [
-                'file' => 'image' //works for jpeg, png, bmp, gif, or svg
-            ]);
+        // $this->validate($request, [
+        //     'file' => 'image' 
+        // ]);
 
-            $file = $request->file('file');
-            if(isset($file)){
-                $file->move('uploadfile/employee',$file->getClientOriginalName());
-                $imageFile= $file->getClientOriginalName();
-            }else{
-                $imageFile= "";
-            }
+        $username = $request->get("username");
+        $password = $request->get("password");
+        $firstName = $request->get("firstName");
+        $lastName = $request->get("lastName");
 
-            $employee = new Employee([
-                    'username' => $request->get('username'),
-                    'password'=> $request->get('password'),
-                    'firstName'=> $request->get('firstName'),
-                    'lastName'=> $request->get('lastName'),
-            
-                    'address' => $request->get('address'),                                        
-                    'subdistrictID'=> $request->get('subdistrictID'),
-                    'homePhone'=> $request->get('homePhone'),
-                    'mobilePhone'=> $request->get('mobilePhone'),
-            
-                    'birthDate' => $request->get('birthDate'),
-                    'gender'=> $request->get('gender'),
-                    'isActive' => $request->get('isActive'),
-                    'email'=> $request->get('email'),
-                    'zipcode'=> $request->get('zipcode'),
-            
-                    'imageFile' => $imageFile,
-                    //'departmentID'=> $request->get('departmentID'),
-                    'positionID'=> $request->get('positionID')
-                    
-                    ]);
+        // $sql = "INSERT INTO employee(username, password,firstName,lastName)
+        //         VALUES($username, $password,$firstName,$lastName)";
+        // $DB->insert();
 
-            $employee->save();
-            return redirect('/employee')->with('success', 'employee has been added');
-        }
+        $employee = new Employee();
+        $employee->username = $username;
+        $employee->password = $password;
+        $employee->firstName = $firstName;
+        $employee->lastName = $lastName;
+        $employee->save();
+
+        return redirect("/admin/employee")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
     }
 
-    public function view($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $employee = Employee::view($id);
-        
-        return view('employee.view',compact('employee'));
+        $employee = Employee::find($id);
+        return view("admin.employee.show", compact("employee"));
     }
 
- 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        $emptypes = Position::all();
-        $provinces = Province::all();
-        $districts = District::all();
-        $subdistricts = Subdistrict::all();
-
-        $employee = Employee::viewEmployee($id);
-        return view('employee.edit', compact('employee','emptypes','provinces','districts','subdistricts'));
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'file' => 'image' //works for jpeg, png, bmp, gif, or svg
-        ]);
-        
         $employee = Employee::find($id);
-        $employee->firstName = $request->get('firstName');
-        $employee->lastName = $request->get('lastName');
-        $employee->username = $request->get('username');
-        $employee->password = $request->get('password');
-
-        $employee->address = $request->get('address');                
-        $employee->subdistrictID = $request->get('subdistrictID');
-        $employee->homePhone = $request->get('homePhone');
-        $employee->mobilePhone = $request->get('mobilePhone');
-
-        $employee->birthDate = $request->get('birthDate');
-        $employee->gender = $request->get('gender');
-        $employee->isActive = $request->get('isActive');
-        $employee->email = $request->get('email');
-        $employee->zipcode = $request->get('zipcode');
-
-        $file = $request->file('file');
-        if(isset($file)){
-            $file->move('uploadfile/employee',$file->getClientOriginalName());
-            $employee->imageFile= $file->getClientOriginalName();
-        }
-
-        //$employee->departmentID = $request->get('departmentID');
-        $employee->positionID =  $request->get('positionID');
-        $employee->save();
-    
-        return redirect('/employee')->with('success', 'employee has been updated');
+        return view("admin.employee.edit", compact("employee"));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EmployeeRequest $request, $id)
+    {        
+        $username = $request->get("username");
+        $password = $request->get("password");
+        $firstName = $request->get("firstName");
+        $lastName = $request->get("lastName");
 
-    public function delete($id)
+        $employee = Employee::find($id);
+        $employee->username = $username;
+        $employee->password = $password;
+        $employee->firstName = $firstName;
+        $employee->lastName = $lastName;
+        $employee->save();
+
+        return redirect("/admin/employee")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
         $employee = Employee::find($id);
         $employee->delete();
-   
-        return redirect('/employee')->with('success', 'Employee has been deleted Successfully');
-    }
-
-    public function district($id)
-    {
-        $districts = District::where('provinceID', '=', $id)->
-                    orderBy('districtID', 'asc')->
-                    pluck('districtName', 'districtID');
-        return json_encode($districts);
-    }
-
-    public function subdistrict($id)
-    {
-        $subdistricts = Subdistrict::where('districtID', '=', $id)->
-                    orderBy('subdistrictID', 'asc')->
-                    pluck('subdistrictName', 'subdistrictID');
-        return json_encode($subdistricts);
+        return redirect("/admin/employee")->with("สำเร็จ","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
     }
 }

@@ -26,6 +26,16 @@ Route::post('/admin/customer/{id}', [App\Http\Controllers\CustomerController::cl
 Route::delete('/admin/customer/{id}', [App\Http\Controllers\CustomerController::class, 'destroy'])->name('admin.customer.destroy');
 
 
+//employee
+Route::get('/admin/employee', [App\Http\Controllers\EmployeeController::class, 'index'])->name('admin.employee.index');;
+Route::get('/admin/employee/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('admin.employee.create');
+Route::post('/admin/employee', [App\Http\Controllers\EmployeeController::class, 'store'])->name('admin.employee.store');
+Route::get('/admin/employee/{id}', [App\Http\Controllers\EmployeeController::class, 'show'])->name('admin.employee.show');
+Route::get('/admin/employee/{id}/edit', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('admin.employee.edit');
+Route::post('/admin/employee/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('admin.employee.update');
+Route::delete('/admin/employee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('admin.employee.destroy');
+
+
 
 Route::get('/houseprice', [App\Http\Controllers\HousePriceController::class, 'index'])->name('houseprice.index');
 Route::post('/houseprice/predict', [App\Http\Controllers\HousePriceController::class, 'predict'])->name('houseprice.predict');

@@ -2,18 +2,16 @@
 
 @section('content')
 
-    <!-- @if($errors->any())
-    <div class="alert alert-danger mb-3">
-      <ul>
-        @foreach($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-    @endif -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item ml-auto"><a href="{{ route('admin.customer.index') }}">หน้าหลัก</a></li>
+    <li class="breadcrumb-item active" aria-current="page">เพิ่มข้อมูลลูกกค้า</li>
+  </ol>
+</nav>
+
     <div class="card">
       <div class="card-header">
-      <h2>สมัครสมาชิก</h2>
+      <h2>เพิ่มข้อมูลลูกกค้า</h2>
       </div>
 
       <form method="post" class="card-body" action="{{ route('admin.customer.store') }}">
@@ -48,7 +46,7 @@
           <input type="number" class="form-control" id="age" name="age" value="" min="13" max="50" placeholder="กรุณาระบุอายุ" required>          
         </div> -->
 
-        <button type="submit" class="btn btn-primary">สมัครสมาชิก</button>
+        <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
 
       </form>
     </div>

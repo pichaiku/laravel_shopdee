@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 class CarController extends Controller
 {   
@@ -37,6 +38,8 @@ class CarController extends Controller
                     
         $sql = "INSERT INTO `rent`(`rentDate`, `rentTime`, `returnDate`, `returnTime`, `totalPrice`, `custID`, `carID`) VALUES 
         ('$rentDate', '$rentTime', '$returnDate', '$returnTime', $totalPrice, $custID, $carID)";
+        Log::info($sql);
+
         DB::insert($sql);
         return response()->json(array('message'=>'success','status'=>'true'));
     }       

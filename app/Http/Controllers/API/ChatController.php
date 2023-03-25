@@ -6,11 +6,15 @@ use DB;
 use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
-{   
-
+{       
+    
     public function list($id){
 
-        $sql = "SELECT chat.empID, message, DATE_FORMAT(createDate,'%d/%m') AS createDate, 
+        $sql = "SELECT chat.empID, message, 
+                CASE
+                    WHEN CAST(CURRENT_TIMESTAMP AS DATE) = SUBSTRING(createDate,1,10) THEN CONCAT(DATE_FORMAT(createDate,'%H.%i'),' น.')
+                    ELSE DATE_FORMAT(createDate,'%d/%m') 
+                END AS createDate, 
                         imageFile, CONCAT(firstName,' ', lastName) AS employee
                 FROM chat 
                 INNER JOIN employee ON chat.empID = employee.empID
@@ -30,34 +34,30 @@ class ChatController extends Controller
         $custID = $request->get('custID');             
         $empID = $request->get('empID');
 
-        $sql = "SELECT  message, DATE_FORMAT(createDate,'%d/%m') AS createDate,
-                sender,orderID,imageFile
-            FROM chat 
-            INNER JOIN employee ON chat.empID = employee.empID                            
-            WHERE chat.custID = $custID AND chat.empID = $empID";
+        $sql = "SELECT  message, 
+                CASE
+                    WHEN CAST(CURRENT_TIMESTAMP AS DATE) = SUBSTRING(createDate,1,10) THEN CONCAT(DATE_FORMAT(createDate,'%H.%i'),' น.')
+                    ELSE DATE_FORMAT(createDate,'%d/%m') 
+                END AS createDate, sender,orderID,imageFile
+                FROM chat 
+                INNER JOIN employee ON chat.empID = employee.empID                            
+                WHERE chat.custID = $custID AND chat.empID = $empID";
         $chat = DB::select($sql);
 
         return response()->json($chat);
         
     }
 
-    public function history($id){
-
-        $sql = "SELECT * FROM chat WHERE orderID=$id";
-        $chat=DB::select($sql);
-
-        return response()->json($chat);
-        
-    } 
 
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Bangkok');
         $message = $request->get('message');             
         $createDate = date("Y-m-d H:i:s");
         $custID = $request->get('custID');                    
         $empID = $request->get('empID');
         $orderID = $request->get('orderID');                    
-        $sender = $request->get('sender');   
+        $sender = "c";   
 
         if($orderID==""){
 //            echo "xx";die();

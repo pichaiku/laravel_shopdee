@@ -7,6 +7,13 @@ use DB;
 class CustomerController extends Controller
 {   
 
+    public function index()
+    {
+        $sql="SELECT * FROM customer";
+        $user=DB::select($sql);         
+        
+        return response()->json($user);
+    }
 
     public function register(Request $request){
         $username = $request->get('username');

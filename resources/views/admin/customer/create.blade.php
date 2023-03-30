@@ -16,37 +16,37 @@
 
       <form method="post" class="card-body" action="{{ route('admin.customer.store') }}">
       @csrf
-        <div class="mb-3">
-          <label for="username" class="form-label">ชื่อผู้ใช้:</label>          
-          <input type="text" class="form-control @error('username') is-invalid @enderror" 
-          id="username"  name="username" value="{{old('username')}}" placeholder="กรุณาระบุชื่อผู้ใช้">
-          <div class="invalid-feedback">{{ $errors->first('username') }}</div>
-        </div>
-
-        <div class="mb-3">
-          <label for="password" class="form-label">รหัสผ่าน:</label>
-          <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{old('password')}}" placeholder="กรุณาระบุรหัสผ่าน" required>
-          <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-        </div>
-
         <div class="mb-3 mt-3">
           <label for="firstName" class="form-label">ชื่อ:</label>
-          <input type="text" class="form-control @error('firstName') is-invalid @enderror" id="firstName"  name="firstName"  value="{{old('firstName')}}" placeholder="กรุณาระบุชื่อ" required>
+          <input type="text" class="form-control @error('firstName') is-invalid @enderror" 
+            id="firstName"  name="firstName"  value="{{old('firstName')}}" placeholder="กรุณาระบุชื่อ" >
           <div class="invalid-feedback">{{ $errors->first('firstName') }}</div>
         </div>
 
         <div class="mb-3">
           <label for="lastName" class="form-label">นามสกุล:</label>
-          <input type="text" class="form-control @error('lastName') is-invalid @enderror" id="lastName" name="lastName" value="{{old('lastName')}}" placeholder="กรุณาระบุนามสกุล" required>
+          <input type="text" class="form-control @error('lastName') is-invalid @enderror" 
+            id="lastName" name="lastName" value="{{old('lastName')}}" placeholder="กรุณาระบุนามสกุล"
+            >
           <div class="invalid-feedback">{{ $errors->first('lastName') }}</div>
         </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">ชื่อผู้ใช้:</label>          
+          <input type="text" class="form-control @error('username') is-invalid @enderror" 
+            id="username"  name="username" value="{{old('username')}}" placeholder="กรุณาระบุชื่อผู้ใช้" >
+          <div class="invalid-feedback">{{ $errors->first('username') }}</div>
+        </div>
 
-        <!-- <div class="mb-3">
-          <label for="age" class="form-label">อายุ:</label>
-          <input type="number" class="form-control" id="age" name="age" value="" min="13" max="50" placeholder="กรุณาระบุอายุ" required>          
-        </div> -->
+        <div class="mb-3">
+          <label for="password" class="form-label">รหัสผ่าน:</label>
+          <input type="password" class="form-control @error('password') is-invalid @enderror" 
+            id="password" name="password" value="{{old('password')}}" placeholder="กรุณาระบุรหัสผ่าน" >
+          <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+        </div>
 
-        <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+
+
+        <button type="submit" id="submit" class="btn btn-primary">บันทึกข้อมูล</button>
 
       </form>
     </div>

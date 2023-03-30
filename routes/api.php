@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\ProductsController;
 |
 */
 
+Route::get('customer', [App\Http\Controllers\API\CustomerController::class, 'index']);
+
 Route::get('chat/list/{id}', [App\Http\Controllers\API\ChatController::class, 'list']);
 Route::post('chat/show', [App\Http\Controllers\API\ChatController::class, 'show']);
 Route::post('chat/store', [App\Http\Controllers\API\ChatController::class, 'store']);

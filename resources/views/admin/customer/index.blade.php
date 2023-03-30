@@ -22,7 +22,7 @@
   </div><br />
   @endif -->
     
-  <a href="{{ route('admin.customer.create') }}" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
+  <a href="{{ route('admin.customer.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
 
     <table id="table" class="table table-striped" style="width:100%">
     <thead>

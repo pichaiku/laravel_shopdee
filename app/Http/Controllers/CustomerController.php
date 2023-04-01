@@ -97,6 +97,7 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, $id)
     {        
+
         $username = $request->get("username");
         $password = $request->get("password");
         $firstName = $request->get("firstName");
@@ -108,7 +109,7 @@ class CustomerController extends Controller
         $customer->firstName = $firstName;
         $customer->lastName = $lastName;
         $customer->save();
-
+        
         return redirect("/admin/customer")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
     }
 
@@ -119,9 +120,9 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {        
         $customer = Customer::find($id);
-        $customer->delete();
-        return redirect("/admin/customer")->with("สำเร็จ","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
+        $customer->delete();        
+        return redirect("/admin/customer")->with("delete","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
     }
 }

@@ -23,8 +23,9 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $custID = $this->route('id');        
         return [
-            'username' => 'required|string|min:3|max:100',
+            'username' => 'required|string|min:3|max:100|unique:customer,username,'.$custID.',custID',
             'password' => 'required|string|min:2|max:100',
             'firstName' => 'required|string|min:2|max:100',
             'lastName' => 'required|string|min:2|max:100'            
@@ -38,6 +39,7 @@ class CustomerRequest extends FormRequest
             'password.required' =>'กรุณาระบุรหัผ่าน',
             'firstName.required' =>'กรุณาระบุชื่อ',
             'lastName.required' =>'กรุณาระบุนามสกุล',
+            'username.unique' =>'ชื่อผู้ใช้นี้มีอยู่แล้ว',
         ];        
     }
 }

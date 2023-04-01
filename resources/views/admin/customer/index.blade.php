@@ -10,7 +10,36 @@
     )
   </script>
 @endif
-      
+
+@if(session()->get('delete'))
+  <script>    
+    Swal.fire(
+      'คุณได้ทำการลบช้อมูลเรียบร้อยแล้ว',
+      '',
+      'success'
+    )
+  </script>
+@endif
+
+<script>
+  function deleteCustomer(form){
+    Swal.fire({
+    title: 'คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่?',
+    text: '',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',    
+    confirmButtonText: 'ใช่',
+    cancelButtonText: "ไม่ใช่"    
+    }).then((result) => {
+      if (result.isConfirmed) {    
+        $("#"+form).submit();        
+      }
+    })    
+  }
+</script>
+
 
   <div class="alert alert-secondary">
     <h2>ข้อมูลลูกค้า</h2>            
@@ -27,6 +56,7 @@
     <table id="table" class="table table-striped" style="width:100%">
     <thead>
       <tr>
+        <th>ชื่อผู้ใช้</th>
         <th>ชื่อ</th>
         <th>นามสกุล</th>
         <th>อีเมล</th>
@@ -39,6 +69,7 @@
     
       @foreach($customers as $customer)
       <tr>
+        <td>{{ $customer->username }}</td>
         <td>{{ $customer->firstName }}</td>
         <td>{{ $customer->lastName }}</td>
         <td>{{ $customer->email }}</td>
@@ -46,10 +77,10 @@
         <td><a href="{{ route('admin.customer.edit',$customer->custID) }}" class="btn btn-warning">แก้ไข</a></td>
         <td>
           
-          <form action="{{ route('admin.customer.destroy', $customer->custID)}}" method="post">
+          <form id="frmDelete{{$customer->custID}}" action="{{ route('admin.customer.destroy', $customer->custID)}}" method="post">
             @csrf
-            @method('DELETE')
-            <button class="btn btn-danger" type="submit" onclick="return confirm('คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่')">ลบ</button>
+            @method('DELETE')            
+            <button class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$customer->custID}}')">ลบ</button>
           </form>
           
         </td>

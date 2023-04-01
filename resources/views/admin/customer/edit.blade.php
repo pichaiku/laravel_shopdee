@@ -19,24 +19,28 @@
       <!-- /customer/<?=request()->segment(count(request()->segments())-1)?> -->      
       <form method="post" action="{{ route('admin.customer.update', $customer->custID) }}">
         @csrf
+          <div class="mb-3 mt-3">
+            <label for="firstName" class="form-label">ชื่อ:</label>
+            <input type="text" class="form-control @error('firstName') is-invalid @enderror" id="firstName"  name="firstName" value="{{$customer->firstName}}" placeholder="กรุณาระบุชื่อ" >
+            <div class="invalid-feedback">{{ $errors->first('firstName') }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">นามสกุล:</label>
+            <input type="text" class="form-control @error('lastName') is-invalid @enderror" id="lastName" name="lastName" value="{{$customer->lastName}}" placeholder="กรุณาระบุนามสกุล" >
+            <div class="invalid-feedback">{{ $errors->first('lastName') }}</div>
+          </div>
+          
           <div class="mb-3">
             <label for="username" class="form-label">ชื่อผู้ใช้:</label>
-            <input type="" class="form-control" id="username"  name="username" value="{{$customer->username}}" placeholder="กรุณาระบุชื่อผู้ใช้" required>
+            <input type="" class="form-control @error('username') is-invalid @enderror" id="username"  name="username" value="{{$customer->username}}" placeholder="กรุณาระบุชื่อผู้ใช้" >
+            <div class="invalid-feedback">{{ $errors->first('username') }}</div>
           </div>
   
           <div class="mb-3">
             <label for="password" class="form-label">รหัสผ่าน:</label>
-            <input type="password" class="form-control" id="password" name="password" value="{{$customer->password}}" placeholder="กรุณาระบุรหัสผ่าน" required>
-          </div>
-  
-          <div class="mb-3 mt-3">
-            <label for="firstName" class="form-label">ชื่อ:</label>
-            <input type="text" class="form-control" id="firstName"  name="firstName" value="{{$customer->firstName}}" placeholder="กรุณาระบุชื่อ" required>
-          </div>
-  
-          <div class="mb-3">
-            <label for="lastName" class="form-label">นามสกุล:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" value="{{$customer->lastName}}" placeholder="กรุณาระบุนามสกุล" required>
+            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{$customer->password}}" placeholder="กรุณาระบุรหัสผ่าน" >
+            <div class="invalid-feedback">{{ $errors->first('password') }}</div>
           </div>
   
           <button type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>

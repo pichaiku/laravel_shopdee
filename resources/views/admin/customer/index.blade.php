@@ -80,7 +80,7 @@
           <form id="frmDelete{{$customer->custID}}" action="{{ route('admin.customer.destroy', $customer->custID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$customer->custID}}')">ลบ</button>
+            <button id="btnDelete{{$customer->custID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$customer->custID}}')">ลบ</button>
           </form>
           
         </td>

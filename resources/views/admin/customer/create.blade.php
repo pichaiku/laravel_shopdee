@@ -20,7 +20,7 @@
           <label for="firstName" class="form-label">ชื่อ:</label>
           <input type="text" class="form-control @error('firstName') is-invalid @enderror" 
             id="firstName"  name="firstName"  value="{{old('firstName')}}" placeholder="กรุณาระบุชื่อ" >
-          <div class="invalid-feedback">{{ $errors->first('firstName') }}</div>
+          <div id="invalid-firstName" class="invalid-feedback">{{ $errors->first('firstName') }}</div>
         </div>
 
         <div class="mb-3">
@@ -28,20 +28,20 @@
           <input type="text" class="form-control @error('lastName') is-invalid @enderror" 
             id="lastName" name="lastName" value="{{old('lastName')}}" placeholder="กรุณาระบุนามสกุล"
             >
-          <div class="invalid-feedback">{{ $errors->first('lastName') }}</div>
+          <div id="invalid-lastName" class="invalid-feedback">{{ $errors->first('lastName') }}</div>
         </div>
         <div class="mb-3">
           <label for="username" class="form-label">ชื่อผู้ใช้:</label>          
           <input type="text" class="form-control @error('username') is-invalid @enderror" 
             id="username"  name="username" value="{{old('username')}}" placeholder="กรุณาระบุชื่อผู้ใช้" >
-          <div class="invalid-feedback">{{ $errors->first('username') }}</div>
+          <div id="invalid-username" class="invalid-feedback">{{ $errors->first('username') }}</div>
         </div>
 
         <div class="mb-3">
           <label for="password" class="form-label">รหัสผ่าน:</label>
           <input type="password" class="form-control @error('password') is-invalid @enderror" 
             id="password" name="password" value="{{old('password')}}" placeholder="กรุณาระบุรหัสผ่าน" >
-          <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+          <div id="invalid-password" class="invalid-feedback">{{ $errors->first('password') }}</div>
         </div>
 
 

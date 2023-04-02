@@ -12,45 +12,45 @@ ${BROWSER}        chrome
 *** Test Cases ***
 Valid Customer Update
     [Documentation]    All required fields are completed.
-    [tags]             register     smoke
+    [tags]             customer_update     smoke
     Maximize Browser Window
-    Click Link         xpath=//*[@id="table"]/tbody/tr[1]/td[5]/a
-    Input Text         id=firstName     วิชาติ
-    Input Text         id=lastName      ใจซื่อ
-    Input Text         id=username      wichai
-    Input Text         id=password      123456    
+    Click Link         xpath=//*[@id="table"]/tbody/tr[1]/td[6]/a
+    Input Text         id=firstName     วิชาติชาญ
+    Input Text         id=lastName      ใจซื่อสัตย์
+    Input Text         id=username      somchai2
+    Input Text         id=password      1234567    
     Click Button       id=submit        
     Wait Until Element Is Visible   xpath=/html/body/div[2]/div/div[6]/button[1]
     Click Button        xpath=/html/body/div[2]/div/div[6]/button[1]
 
-Invalid Register with Some Blank Feilds
+Invalid Customer Update with Some Blank Feilds
     [Documentation]    Some required fields are not completed.
-    [Tags]             register    
+    [Tags]             customer_update    
     Sleep              2s
-    Click Link         id=btnCreate
+    Click Link         xpath=//*[@id="table"]/tbody/tr[1]/td[6]/a
     Input Text         id=firstName     ${EMPTY}
     Input Text         id=lastName      ${EMPTY}    
     Input Text         id=username      ${EMPTY}
     Input Text         id=password      ${EMPTY}    
-    Click Button       id=submit        
-    Wait Until Element Is Visible   xpath=/html/body/div[1]/div/div/form/div[1]/div
+    Click Button       id=submit
+    Wait Until Element Is Visible   id=invalid-firstName
     Wait Until Page Contains    กรุณาระบุชื่อ
-    Wait Until Element Is Visible   xpath=/html/body/div[1]/div/div/form/div[2]/div
+    Wait Until Element Is Visible   id=invalid-lastName
     Wait Until Page Contains    กรุณาระบุนามสกุล
-    Wait Until Element Is Visible   xpath=/html/body/div[1]/div/div/form/div[3]/div
+    Wait Until Element Is Visible   id=invalid-username
     Wait Until Page Contains    กรุณาระบุชื่อผู้ใช้
-    Wait Until Element Is Visible   xpath=/html/body/div[1]/div/div/form/div[4]/div
+    Wait Until Element Is Visible   id=invalid-password
     Wait Until Page Contains    กรุณาระบุรหัผ่าน
 
-Invalid Register with Existing Username  
+Invalid Customer Update with Existing Username  
     [Documentation]    Username has been used
-    [Tags]             register    
-    Sleep              2s
-    Input Text         id=firstName     วิชัย
-    Input Text         id=lastName      ใจซื่อ
-    Input Text         id=username      wichai5
-    Input Text         id=password      12345    
+    [Tags]             customer_update    
+    Sleep              2s    
+    Input Text         id=firstName     วิชาติชาญ
+    Input Text         id=lastName      ใจซื่อสัตย์
+    Input Text         id=username      user1
+    Input Text         id=password      1234567   
     Click Button       id=submit            
-    Wait Until Element Is Visible   xpath=/html/body/div[1]/div/div/form/div[3]/div
+    Wait Until Element Is Visible   id=invalid-username
     Wait Until Page Contains    ชื่อผู้ใช้นี้มีอยู่แล้ว
     Sleep              2s

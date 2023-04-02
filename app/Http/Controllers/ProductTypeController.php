@@ -38,10 +38,10 @@ class ProductTypeController extends Controller
      */
     public function store(ProductTypeRequest $request)
     {        
-        $producttypeName = $request->get("producttypeName");        
+        $typeName = $request->get("typeName");        
 
         $producttype = new ProductType();        
-        $producttype->producttypeName = $producttypeName;      
+        $producttype->typeName = $typeName;      
         $producttype->save();
 
         return redirect("/admin/producttype")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
@@ -81,10 +81,10 @@ class ProductTypeController extends Controller
      */
     public function update(ProductTypeRequest $request, $id)
     {              
-        $producttypeName = $request->get("producttypeName");
+        $typeName = $request->get("typeName");
 
         $producttype = ProductType::find($id);        
-        $producttype->producttypeName = $producttypeName;                 
+        $producttype->typeName = $typeName;                 
         $producttype->save();
         
         return redirect("/admin/producttype")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");

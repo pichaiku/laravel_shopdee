@@ -23,9 +23,10 @@ class ProductTypeRequest extends FormRequest
      */
     public function rules()
     {
-        $custID = $this->route('id');        
+        $typeID = $this->route('id');      
+
         return [
-            'typeName' => 'string|required|max:200|unique:producttype,typeName,'.$typeID.',typeID',
+            'typeName' => 'required|string|max:200|unique:producttype,typeName,'.$typeID.',typeID',
         ];
     }
 

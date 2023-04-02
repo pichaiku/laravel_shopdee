@@ -23,7 +23,7 @@ class SubdistrictRequest extends FormRequest
      */
     public function rules()
     {
-        $custID = $this->route('id');        
+        $subdistrictID = $this->route('id');        
         return [
             'subdistrictID' => 'string|required|min:6|max:6|unique:subdistrict,subdistrictID,'.$subdistrictID.',subdistrictID',
             'subdistrictName' => 'string|required|max:200',

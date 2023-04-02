@@ -55,34 +55,33 @@
 
     <table id="table" class="table table-striped" style="width:100%">
     <thead>
-      <tr>
-        <th>ชื่อผู้ใช้</th>
+      <tr>        
         <th>ชื่อ</th>
         <th>นามสกุล</th>
+        <th>ชื่อผู้ใช้</th>
         <th>อีเมล</th>
-        <th></th>
-        <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
     
       @foreach($customers as $customer)
-      <tr>
-        <td>{{ $customer->username }}</td>
+      <tr>        
         <td>{{ $customer->firstName }}</td>
         <td>{{ $customer->lastName }}</td>
+        <td>{{ $customer->username }}</td>
         <td>{{ $customer->email }}</td>
-        <td><a href="{{ route('admin.customer.show',$customer->custID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.customer.edit',$customer->custID) }}" class="btn btn-warning">แก้ไข</a></td>
-        <td>
-          
+        <td style="width:20%;">
           <form id="frmDelete{{$customer->custID}}" action="{{ route('admin.customer.destroy', $customer->custID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button id="btnDelete{{$customer->custID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$customer->custID}}')">ลบ</button>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">                     
+              <a href="{{ route('admin.customer.show',$customer->custID) }}" class="btn btn-info">แสดง</a>
+              <a href="{{ route('admin.customer.edit',$customer->custID) }}" class="btn btn-warning">แก้ไข</a>
+              <button id="btnDelete{{$customer->custID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$customer->custID}}')">&nbsp;&nbsp;ลบ&nbsp;&nbsp;</button>
+            </div>
           </form>
-          
+
         </td>
       </tr>
       @endforeach

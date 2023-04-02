@@ -61,8 +61,6 @@
         <th>จำนวน</th>
         <th>ประเภทสินค้า</th>
         <th></th>
-        <th></th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -73,16 +71,16 @@
         <td>{{ $product->price }}</td>
         <td>{{ $product->quantity }}</td>
         <td>{{ $product->typeName }}</td>
-        <td><a href="{{ route('admin.product.show',$product->productID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.product.edit',$product->productID) }}" class="btn btn-warning">แก้ไข</a></td>
-        <td>
-          
+        <td style="width: 20%;">
           <form id="frmDelete{{$product->productID}}" action="{{ route('admin.product.destroy', $product->productID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button id="btnDelete{{$product->productID}}" class="btn btn-danger" type="button" onclick="deleteProduct('frmDelete{{$product->productID}}')">ลบ</button>
-          </form>
-          
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">  
+              <a href="{{ route('admin.product.show',$product->productID) }}" class="btn btn-info">แสดง</a>
+              <a href="{{ route('admin.product.edit',$product->productID) }}" class="btn btn-warning">แก้ไข</a>
+              <button id="btnDelete{{$product->productID}}" class="btn btn-danger" type="button" onclick="deleteProduct('frmDelete{{$product->productID}}')">&nbsp;&nbsp;ลบ&nbsp;&nbsp;</button>
+            </div>
+          </form>          
         </td>
       </tr>
       @endforeach

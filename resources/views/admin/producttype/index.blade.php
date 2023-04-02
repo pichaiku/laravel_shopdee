@@ -53,25 +53,23 @@
       <tr>
         <th>ประเภทสินค้า</th>
         <th></th>
-        <th></th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
     
       @foreach($producttypes as $producttype)
       <tr>        
-        <td>{{ $producttype->typeName }}</td>
-        <td><a href="{{ route('admin.producttype.show',$producttype->typeID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.producttype.edit',$producttype->typeID) }}" class="btn btn-warning">แก้ไข</a></td>
+        <td style="width:80%;">{{ $producttype->typeName }}</td>
         <td>
-          
           <form id="frmDelete{{$producttype->typeID}}" action="{{ route('admin.producttype.destroy', $producttype->typeID)}}" method="post">
             @csrf
-            @method('DELETE')            
-            <button id="btnDelete{{$producttype->typeID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$producttype->typeID}}')">ลบ</button>
+            @method('DELETE')                        
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">            
+              <a href="{{ route('admin.producttype.show',$producttype->typeID) }}" class="btn btn-info">แสดง</a>
+              <a href="{{ route('admin.producttype.edit',$producttype->typeID) }}" class="btn btn-warning">แก้ไข</a>          
+              <button id="btnDelete{{$producttype->typeID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$producttype->typeID}}')">&nbsp;&nbsp;ลบ&nbsp;&nbsp;</button>            
+            </div>
           </form>
-          
         </td>
       </tr>
       @endforeach

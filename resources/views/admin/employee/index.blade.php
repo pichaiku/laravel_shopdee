@@ -61,8 +61,6 @@
         <th>นามสกุล</th>
         <th>อีเมล</th>
         <th></th>
-        <th></th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -73,14 +71,16 @@
         <td>{{ $employee->firstName }}</td>
         <td>{{ $employee->lastName }}</td>
         <td>{{ $employee->email }}</td>
-        <td><a href="{{ route('admin.employee.show',$employee->empID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.employee.edit',$employee->empID) }}" class="btn btn-warning">แก้ไข</a></td>
-        <td>
-          
+        <td style="width: 20%;">
+
           <form id="frmDelete{{$employee->empID}}" action="{{ route('admin.employee.destroy', $employee->empID)}}" method="post">
             @csrf
-            @method('DELETE')            
-            <button id="btnDelete{{$employee->empID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$employee->empID}}')">ลบ</button>
+            @method('DELETE')  
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">                                 
+              <a href="{{ route('admin.employee.show',$employee->empID) }}" class="btn btn-info">แสดง</a>
+              <a href="{{ route('admin.employee.edit',$employee->empID) }}" class="btn btn-warning">แก้ไข</a>
+              <button id="btnDelete{{$employee->empID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$employee->empID}}')">&nbsp;&nbsp;ลบ&nbsp;&nbsp;</button>
+            </div>
           </form>
           
         </td>

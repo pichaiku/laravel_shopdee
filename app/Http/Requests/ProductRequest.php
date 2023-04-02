@@ -23,14 +23,14 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        $custID = $this->route('id');        
+        $productID = $this->route('id');        
         return [            
-            'productName' => 'string|required|max:200|unique:product,productName,'.$productID.',productID',
-            'productDetail' => 'string|max:500',
-            'price' => 'float|required|max:9999999999',
-            'quantity' => 'int|required|max:99999',
-            'imageFile' => 'string|required|max:100',
-            'typeID' => 'int|required|max:999',
+            'productName' => 'required|max:200|unique:product,productName,'.$productID.',productID',
+            'productDetail' => 'max:500',
+            'price' => 'required|numeric|max:9999999999',
+            'quantity' => 'required|int|max:99999',            
+            'typeID' => 'required|int|max:999',
+            'imageFile' => 'image|max:1024'
         ];
     }//`productDetail`, `price`, `quantity`, `imageFile`, `typeID`
 
@@ -40,9 +40,8 @@ class ProductRequest extends FormRequest
             'productName.required' =>'กรุณาระบุชื่อสินค้า',
             'productName.unique' =>'ชื่อสินค้านี้มีอยู่แล้ว',
             'price.required' =>'กรุณาระบุราคาสินค้า',
-            'quantity.required' =>'กรุณาระบุจำนวน',
-            'imageFile.required' =>'กรุณาระบุรูปสินค้า',
-            'typeID.required' =>'กรุณาระบุประเภทสินค้า',
+            'quantity.required' =>'กรุณาระบุจำนวน',            
+            'typeID.required' =>'กรุณาระบุประเภทสินค้า',            
         ];        
     }
 }

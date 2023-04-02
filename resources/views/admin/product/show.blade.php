@@ -12,6 +12,12 @@
     <h2>รายละเอียดสินค้า</h2>
   </div>
   <div class="card-body">
+        
+    <div class="mb-3">
+      <label for="quantity" class="form-label">ประเภทสินค้า:</label>
+      {{$product->typeName}}
+    </div>    
+    
     <div class="mb-3 mt-3">
       <label for="productName" class="form-label">ชื่อสินค้า:</label>
       {{$product->productName}}
@@ -34,13 +40,11 @@
 
     <div class="mb-3">
       <label for="imageFile" class="form-label">รูปสินค้า:</label>
-      <img src="{{URL::to('/').'assets/product/'.$product->imageFile}}" alt="รูปสินค้า">      
+      <div>
+        <img src="{{URL::to('/').'/assets/product/'.$product->imageFile}}" 
+             class="rounded" alt="รูปสินค้า" style="width: 288px;">      
+      </div>
     </div>
-    
-    <div class="mb-3">
-      <label for="quantity" class="form-label">ประเภทสินค้า:</label>
-      {{$product->typeName}}
-    </div>    
    
   </div>
 </div>  

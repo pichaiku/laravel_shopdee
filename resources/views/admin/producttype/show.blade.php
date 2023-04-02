@@ -13,8 +13,8 @@
   </div>
   <div class="card-body">
     <div class="mb-3">
-      <label for="username" class="form-label">ประเภทสินค้าผู้ใช้:</label>
-      {{$producttype->username}}
+      <label for="username" class="form-label">ประเภทสินค้า:</label>
+      {{$producttype->typeName}}
     </div>
  
   </div>

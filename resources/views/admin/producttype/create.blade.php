@@ -19,7 +19,7 @@
         <div class="mb-3 mt-3">
           <label for="typeName" class="form-label">ประเภทสินค้า:</label>
           <input type="text" class="form-control @error('typeName') is-invalid @enderror" 
-            id="typeName"  name="typeName"  value="{{old('typeName')}}" placeholder="กรุณาระบุประเภทสินค้า" >
+            id="typeName"  name="typeName"  value="{{old('typeName')}}" placeholder="กรุณาระบุประเภทสินค้า" maxlength="200" >
           <div id="invalid-typeName" class="invalid-feedback">{{ $errors->first('typeName') }}</div>
         </div>
 

@@ -23,7 +23,7 @@ class DistrictRequest extends FormRequest
      */
     public function rules()
     {
-        $custID = $this->route('id');        
+        $productID = $this->route('id');        
         return [
             'districtID' => 'string|required|min:4|max:4|unique:district,districtID,'.$districtID.',districtID',
             'districtName' => 'string|required|max:200',

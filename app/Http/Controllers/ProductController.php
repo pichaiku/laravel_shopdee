@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use DB;
 
 class ProductController extends Controller
 {
@@ -14,8 +16,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $products = Product::all();        
+    {              
+        // $sql="SELECT * FROM customer";
+        // $products=DB::select($sql);  
+        $products = Product::all();          
+
         return view("admin.product.index", compact("products"));
     }
 
@@ -27,7 +32,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("admin.product.create");
+        $producttypes = ProductType::all();    
+        return view("admin.product.create", compact("producttypes"));
     }
 
     /**
@@ -38,24 +44,27 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        $request->validate(['imageFile' => 'required',],
+                            ['imageFile.required' =>'กรุณาระบุรูปสินค้า']
+                          );
+
         $productName = $request->get("productName");
         $productDetail = $request->get("productDetail");
         $price = $request->get("price");
         $quantity = $request->get("quantity");
+        $typeID  = $request->get("typeID");
 
-        $imageFile = $request->get("imageFile");        
-        $imageFile->move("assets/product", $imageFile->getClientOriginalName());
-        $imageFile = $imageFile->getClientOriginalName();     
-
-        $typeID  = $request->get("typeID ");
+        $imageFile  = $request->file("imageFile");
+        $fileName = time().$imageFile->getClientOriginalName();   
+        $imageFile->move("assets/product", $fileName);
 
         $product = new Product();
         $product->productName = $productName;
         $product->productDetail = $productDetail;
         $product->price = $price;
         $product->quantity = $quantity;
-        $product->imageFile = $imageFile;
-        $product->typeID = $typeID;        
+        $product->imageFile = $fileName;
+        $product->typeID = $typeID;    
         $product->save();
 
         return redirect("/admin/product")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
@@ -69,7 +78,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        //$product = Product::find($id);
+        $sql = "SELECT product.*,producttype.typeName  
+                FROM product 
+                INNER JOIN producttype ON product.typeID = producttype.typeID 
+                WHERE productID=$id";
+        $product = DB::select($sql)[0];  
         return view("admin.product.show", compact("product"));
     }
 
@@ -82,14 +96,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+        $producttypes = ProductType::all();
 
-        // if(isset($file)){
-        //     $imageFile = $request->get("imageFile");        
-        //     $imageFile->move("assets/product", $imageFile->getClientOriginalName());
-        //     $imageFile = $imageFile->getClientOriginalName();   
-        // }
-
-        return view("admin.product.edit", compact("product"));
+        return view("admin.product.edit", compact("product","producttypes"));
     }
 
     /**
@@ -104,17 +113,22 @@ class ProductController extends Controller
         $productName = $request->get("productName");
         $productDetail = $request->get("productDetail");
         $price = $request->get("price");
-        $quantity = $request->get("quantity");
-        $imageFile = $request->get("imageFile");
-        $typeID  = $request->get("typeID ");
+        $quantity = $request->get("quantity");        
+        $typeID  = $request->get("typeID");
+        $imageFile = $request->file("imageFile");
 
         $product = Product::find($id);
         $product->productName = $productName;
         $product->productDetail = $productDetail;
         $product->price = $price;
-        $product->quantity = $quantity;
-        $product->imageFile = $imageFile;
-        $product->typeID = $typeID;           
+        $product->quantity = $quantity;        
+        $product->typeID = $typeID;     
+                  
+        if(isset($imageFile)){                  
+            $imageFile->move("assets/product", $imageFile->getClientOriginalName());
+            $product->imageFile = $imageFile->getClientOriginalName();                            
+        }      
+        
         $product->save();
         
         return redirect("/admin/product")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");

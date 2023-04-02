@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>ระบบซื้อขายออนไลน์</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -188,24 +188,60 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
+          <a href="{{ route('admin.dashboard') }}" class="nav-link">
+            <i class="nav-icon fas fa-home"></i>
+            <p>แดชบอร์ด</p>
+          </a> 
+        </li>
+        
+        <li class="nav-item">
           <a href="{{ route('admin.customer.index') }}" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-              ข้อมูลลูกค้า
-              
-            </p>
+            <p>ข้อมูลลูกค้า</p>
           </a>          
         </li>
 
         <li class="nav-item">
           <a href="{{ route('admin.employee.index') }}" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
-            <p>
-              ข้อมูลพนักงาน
-              
-            </p>
+            <p>ข้อมูลพนักงาน</p>
           </a>
         </li>
+
+        <li class="nav-item">
+          <a href="{{ route('admin.producttype.index') }}" class="nav-link">
+            <i class="nav-icon fas fa-layer-group"></i>
+            <p>ประเภทสินค้า</p>
+          </a> 
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ route('admin.product.index') }}" class="nav-link">
+            <i class="nav-icon fas fa-tshirt"></i>
+            <p>สินค้า</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ route('admin.province.index') }}" class="nav-link">
+            <i class="nav-icon fas fa-location"></i>
+            <p>จังหวัด</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ route('admin.district.index') }}" class="nav-link">
+            <i class="nav-icon fas fa-at"></i>
+            <p>อำเภอ</p>
+          </a> 
+        </li>      
+        
+        <li class="nav-item">
+          <a href="{{ route('admin.subdistrict.index') }}" class="nav-link">
+            <i class="nav-icon fas fa-map-marker-alt"></i>
+            <p>ตำบล</p>
+          </a>
+        </li>      
 
       </ul>
     </nav>

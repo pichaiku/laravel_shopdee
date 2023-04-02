@@ -23,7 +23,7 @@ class ProvinceRequest extends FormRequest
      */
     public function rules()
     {
-        $custID = $this->route('id');        
+        $provinceID = $this->route('id');        
         return [
             'provinceID' => 'string|required|min:2|max:2|unique:province,provinceID,'.$provinceID.',provinceID',
             'provinceName' => 'string|required|max:200',

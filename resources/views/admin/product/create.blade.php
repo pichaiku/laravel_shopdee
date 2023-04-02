@@ -11,11 +11,24 @@
 
     <div class="card">
       <div class="card-header">
-      <h2>เพิ่มข้อมูลลูกกค้า</h2>
+      <h2>เพิ่มข้อมูลสินค้า</h2>
       </div>
 
-      <form method="post" class="card-body" action="{{ route('admin.product.store') }}">
+      <form method="post" class="card-body" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
       @csrf
+  
+        <div class="mb-3">
+          <label for="typeID" class="form-label">ประเภทสินค้า:</label>
+          <select class="form-control @error('typeID') is-invalid @enderror" 
+            id="typeID" name="typeID">
+            <option value="">++ เลือกประเภทสินค้า ++</option>
+            @foreach($producttypes as $type)
+              <option value="{{ $type->typeID }}">{{ $type->typeName }}</option>
+            @endforeach
+          </select>
+          <div id="invalid-typeID" class="invalid-feedback">{{ $errors->first('typeID') }}</div>
+        </div>
+              
         <div class="mb-3 mt-3">
           <label for="productName" class="form-label">ชื่อสินค้า:</label>
           <input type="text" class="form-control @error('productName') is-invalid @enderror" 
@@ -50,19 +63,8 @@
             id="imageFile" name="imageFile" value="{{old('imageFile')}}" placeholder="กรุณาระบุจำนวน" >
           <div id="invalid-imageFile" class="invalid-feedback">{{ $errors->first('imageFile') }}</div>
         </div>
-  
-        <div class="mb-3">
-          <label for="typeID" class="form-label">ประเภทสินค้า:</label>
-          <select class="form-select @error('typeID') is-invalid @enderror" 
-            id="typeID" name="typeID" placeholder="กรุณาระบุประเภทสินค้า" >
-            @foreach($types as $type)
-              <option value="{{ $type->typeID }}">{{ $type->typeName }}</option>
-            @endforeach
-          </select>
-          <div id="invalid-typeID" class="invalid-feedback">{{ $errors->first('typeID') }}</div>
-        </div>
 
-        <button type="submit" id="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+        <button type="submit" id="submit" class="btn btn-primary mt-3">บันทึกข้อมูล</button>
 
       </form>
     </div>

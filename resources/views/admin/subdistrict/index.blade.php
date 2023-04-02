@@ -42,24 +42,19 @@
 
 
   <div class="alert alert-secondary">
-    <h2>ข้อมูลพนักงาน</h2>            
+    <h2>ข้อมูลตำบล</h2>            
   </div>
-  
-  <!-- @if(session()->get('success'))
-  <div class="alert alert-success">
-    {{ session()->get('success') }}  
-  </div><br />
-  @endif -->
+
     
-  <a href="{{ route('admin.employee.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
+  <a href="{{ route('admin.subdistrict.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
 
     <table id="table" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>ชื่อผู้ใช้</th>
-        <th>ชื่อ</th>
-        <th>นามสกุล</th>
-        <th>อีเมล</th>
+        <th>รหัสตำบล</th>
+        <th>ชื่อตำบล</th>
+        <th>ชื่ออำเภอ</th>
+        <th>ชื่อจังหวัด</th>
         <th></th>
         <th></th>
         <th></th>
@@ -67,20 +62,20 @@
     </thead>
     <tbody>
     
-      @foreach($employees as $employee)
-      <tr>
-        <td>{{ $employee->username }}</td>
-        <td>{{ $employee->firstName }}</td>
-        <td>{{ $employee->lastName }}</td>
-        <td>{{ $employee->email }}</td>
-        <td><a href="{{ route('admin.employee.show',$employee->empID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.employee.edit',$employee->empID) }}" class="btn btn-warning">แก้ไข</a></td>
+      @foreach($subdistricts as $subdistrict)
+      <tr>        
+        <td>{{ $subdistrict->subdistrictID }}</td>
+        <td>{{ $subdistrict->subdistrictName }}</td>
+        <td>{{ $subdistrict->districtName }}</td>
+        <td>{{ $subdistrict->provinceName }}</td>
+        <td><a href="{{ route('admin.subdistrict.show',$subdistrict->subdistrictID) }}" class="btn btn-info">แสดง</a></td>
+        <td><a href="{{ route('admin.subdistrict.edit',$subdistrict->subdistrictID) }}" class="btn btn-warning">แก้ไข</a></td>
         <td>
           
-          <form id="frmDelete{{$employee->empID}}" action="{{ route('admin.employee.destroy', $employee->empID)}}" method="post">
+          <form id="frmDelete{{$subdistrict->subdistrictID}}" action="{{ route('admin.subdistrict.destroy', $subdistrict->subdistrictID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button id="btnDelete{{$employee->empID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$employee->empID}}')">ลบ</button>
+            <button id="btnDelete{{$subdistrict->subdistrictID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$subdistrict->subdistrictID}}')">ลบ</button>
           </form>
           
         </td>

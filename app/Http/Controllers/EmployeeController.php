@@ -19,10 +19,6 @@ class EmployeeController extends Controller
         return view("admin.employee.index", compact("employees"));
     }
 
-    public function showToken(){
-        echo csrf_token(); 
-  
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -97,6 +93,7 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeRequest $request, $id)
     {        
+
         $username = $request->get("username");
         $password = $request->get("password");
         $firstName = $request->get("firstName");
@@ -108,7 +105,7 @@ class EmployeeController extends Controller
         $employee->firstName = $firstName;
         $employee->lastName = $lastName;
         $employee->save();
-
+        
         return redirect("/admin/employee")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
     }
 
@@ -119,9 +116,9 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {        
         $employee = Employee::find($id);
-        $employee->delete();
-        return redirect("/admin/employee")->with("สำเร็จ","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
+        $employee->delete();        
+        return redirect("/admin/employee")->with("delete","คุณได้ทำการลบข้อมูลเรียบร้อยแล้ว");
     }
 }

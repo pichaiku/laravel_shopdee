@@ -22,7 +22,7 @@
 @endif
 
 <script>
-  function deleteCustomer(form){
+  function deleteProduct(form){
     Swal.fire({
     title: 'คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่?',
     text: '',
@@ -42,7 +42,7 @@
 
 
   <div class="alert alert-secondary">
-    <h2>ข้อมูลพนักงาน</h2>            
+    <h2>ข้อมูลสินค้า</h2>            
   </div>
   
   <!-- @if(session()->get('success'))
@@ -51,15 +51,15 @@
   </div><br />
   @endif -->
     
-  <a href="{{ route('admin.employee.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
+  <a href="{{ route('admin.product.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
 
     <table id="table" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>ชื่อผู้ใช้</th>
-        <th>ชื่อ</th>
-        <th>นามสกุล</th>
-        <th>อีเมล</th>
+        <th>ชื่อสินค้า</th>
+        <th>ราคา</th>
+        <th>จำนวน</th>
+        <th>ประเภทสินค้า</th>
         <th></th>
         <th></th>
         <th></th>
@@ -67,20 +67,20 @@
     </thead>
     <tbody>
     
-      @foreach($employees as $employee)
+      @foreach($products as $product)
       <tr>
-        <td>{{ $employee->username }}</td>
-        <td>{{ $employee->firstName }}</td>
-        <td>{{ $employee->lastName }}</td>
-        <td>{{ $employee->email }}</td>
-        <td><a href="{{ route('admin.employee.show',$employee->empID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.employee.edit',$employee->empID) }}" class="btn btn-warning">แก้ไข</a></td>
+        <td>{{ $product->productName }}</td>
+        <td>{{ $product->price }}</td>
+        <td>{{ $product->quantity }}</td>
+        <td>{{ $product->typeName }}</td>
+        <td><a href="{{ route('admin.product.show',$product->productID) }}" class="btn btn-info">แสดง</a></td>
+        <td><a href="{{ route('admin.product.edit',$product->productID) }}" class="btn btn-warning">แก้ไข</a></td>
         <td>
           
-          <form id="frmDelete{{$employee->empID}}" action="{{ route('admin.employee.destroy', $employee->empID)}}" method="post">
+          <form id="frmDelete{{$product->productID}}" action="{{ route('admin.product.destroy', $product->productID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button id="btnDelete{{$employee->empID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$employee->empID}}')">ลบ</button>
+            <button id="btnDelete{{$product->productID}}" class="btn btn-danger" type="button" onclick="deleteProduct('frmDelete{{$product->productID}}')">ลบ</button>
           </form>
           
         </td>

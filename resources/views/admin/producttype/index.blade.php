@@ -42,24 +42,16 @@
 
 
   <div class="alert alert-secondary">
-    <h2>ข้อมูลพนักงาน</h2>            
+    <h2>ข้อมูลประเภทสินค้า</h2>            
   </div>
-  
-  <!-- @if(session()->get('success'))
-  <div class="alert alert-success">
-    {{ session()->get('success') }}  
-  </div><br />
-  @endif -->
+
     
-  <a href="{{ route('admin.employee.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
+  <a href="{{ route('admin.producttype.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
 
     <table id="table" class="table table-striped" style="width:100%">
     <thead>
       <tr>
-        <th>ชื่อผู้ใช้</th>
-        <th>ชื่อ</th>
-        <th>นามสกุล</th>
-        <th>อีเมล</th>
+        <th>ประเภทสินค้า</th>
         <th></th>
         <th></th>
         <th></th>
@@ -67,20 +59,17 @@
     </thead>
     <tbody>
     
-      @foreach($employees as $employee)
-      <tr>
-        <td>{{ $employee->username }}</td>
-        <td>{{ $employee->firstName }}</td>
-        <td>{{ $employee->lastName }}</td>
-        <td>{{ $employee->email }}</td>
-        <td><a href="{{ route('admin.employee.show',$employee->empID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.employee.edit',$employee->empID) }}" class="btn btn-warning">แก้ไข</a></td>
+      @foreach($producttypes as $producttype)
+      <tr>        
+        <td>{{ $producttype->typeName }}</td>
+        <td><a href="{{ route('admin.producttype.show',$producttype->typeID) }}" class="btn btn-info">แสดง</a></td>
+        <td><a href="{{ route('admin.producttype.edit',$producttype->typeID) }}" class="btn btn-warning">แก้ไข</a></td>
         <td>
           
-          <form id="frmDelete{{$employee->empID}}" action="{{ route('admin.employee.destroy', $employee->empID)}}" method="post">
+          <form id="frmDelete{{$producttype->typeID}}" action="{{ route('admin.producttype.destroy', $producttype->typeID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button id="btnDelete{{$employee->empID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$employee->empID}}')">ลบ</button>
+            <button id="btnDelete{{$producttype->typeID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$producttype->typeID}}')">ลบ</button>
           </form>
           
         </td>

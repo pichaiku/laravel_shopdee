@@ -44,7 +44,7 @@
     
   <a href="{{ route('admin.province.create') }}" id="btnCreate" class="btn btn-success mt-3 mb-3">เพิ่มข้อมูล</a>
 
-    <table id="table" class="table table-bordered table-striped" style="width:100%">
+    <table id="table" class="table table-striped" style="width:100%">
     <thead>
       <tr>
         <th>รหัสจังหวัด</th>

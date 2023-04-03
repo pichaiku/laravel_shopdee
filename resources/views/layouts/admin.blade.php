@@ -211,7 +211,7 @@
         </li>
         
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="{{ route('admin.order.index') }}" class="nav-link">
             <i class="nav-icon fas fa-shopping-cart"></i>
             <p>รายการสั่งซื้อ</p>
           </a>

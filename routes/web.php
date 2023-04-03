@@ -22,6 +22,13 @@ Route::get('/', function () {return view('welcome');});
 //dashboard
 Route::get('/admin', [App\Http\Controllers\DashboardController::class, 'index'])->name('admin.dashboard');
 
+//order
+Route::get('/admin/order', [App\Http\Controllers\OrderController::class, 'index'])->name('admin.order.index');
+Route::get('/admin/order/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('admin.order.show');
+Route::get('/admin/order/{id}/edit', [App\Http\Controllers\OrderController::class, 'edit'])->name('admin.order.edit');
+Route::post('/admin/order/{id}', [App\Http\Controllers\OrderController::class, 'update'])->name('admin.order.update');
+Route::delete('/admin/order/{id}', [App\Http\Controllers\OrderController::class, 'destroy'])->name('admin.order.destroy');
+
 //customer
 Route::get('/admin/customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('admin.customer.index');
 Route::get('/admin/customer/create', [App\Http\Controllers\CustomerController::class, 'create'])->name('admin.customer.create');

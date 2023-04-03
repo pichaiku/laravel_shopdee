@@ -25,9 +25,9 @@ class SubdistrictRequest extends FormRequest
     {
         $subdistrictID = $this->route('id');        
         return [
-            'subdistrictID' => 'string|required|min:6|max:6|unique:subdistrict,subdistrictID,'.$subdistrictID.',subdistrictID',
-            'subdistrictName' => 'string|required|max:200',
-            'districtID' => 'string|required|min:4|max:4',
+            'subdistrictID' => 'required|min:6|max:6|unique:subdistrict,subdistrictID,'.$subdistrictID.',subdistrictID',
+            'subdistrictName' => 'required|max:200',
+            'districtID' => 'required|min:4|max:4',
         ];
     }
 

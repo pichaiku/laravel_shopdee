@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\District;
 use Illuminate\Http\Request;
 use App\Http\Requests\DistrictRequest;
+use DB;
 
 class DistrictController extends Controller
 {
@@ -15,8 +16,19 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        $districts = District::all();        
+        //$districts = District::all();        
+        $sql = "SELECT district.*, province.provinceName 
+                FROM district 
+                INNER JOIN province ON district.provinceID = province.provinceID";
+        $districts = DB::select($sql);
         return view("admin.district.index", compact("districts"));
+    }
+
+    public function district($id){
+        $sql = "SELECT districtID, districtName 
+        FROM district 
+        WHERE provinceID='$id'";
+        return DB::select($sql);
     }
 
 

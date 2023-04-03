@@ -41,20 +41,14 @@
 </script>
 
 
-  <div class="alert alert-secondary">
-    <h2>ข้อมูลจังหวัด</h2>            
-  </div>
-
     
-  <a href="{{ route('admin.province.create') }}" id="btnCreate" class="btn btn-success mb-3">เพิ่มข้อมูล</a>
+  <a href="{{ route('admin.province.create') }}" id="btnCreate" class="btn btn-success mt-3 mb-3">เพิ่มข้อมูล</a>
 
-    <table id="table" class="table table-striped" style="width:100%">
+    <table id="table" class="table table-bordered table-striped" style="width:100%">
     <thead>
       <tr>
         <th>รหัสจังหวัด</th>
         <th>ชื่อจังหวัด</th>
-        <th></th>
-        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -64,14 +58,15 @@
       <tr>        
         <td>{{ $province->provinceID }}</td>
         <td>{{ $province->provinceName }}</td>
-        <td><a href="{{ route('admin.province.show',$province->provinceID) }}" class="btn btn-info">แสดง</a></td>
-        <td><a href="{{ route('admin.province.edit',$province->provinceID) }}" class="btn btn-warning">แก้ไข</a></td>
-        <td>
-          
+        <td style="width:20%;">
           <form id="frmDelete{{$province->provinceID}}" action="{{ route('admin.province.destroy', $province->provinceID)}}" method="post">
             @csrf
             @method('DELETE')            
-            <button id="btnDelete{{$province->provinceID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$province->provinceID}}')">ลบ</button>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">            
+              <a href="{{ route('admin.province.show',$province->provinceID) }}" class="btn btn-info">แสดง</a>
+              <a href="{{ route('admin.province.edit',$province->provinceID) }}" class="btn btn-warning">แก้ไข</a>
+              <button id="btnDelete{{$province->provinceID}}" class="btn btn-danger" type="button" onclick="deleteCustomer('frmDelete{{$province->provinceID}}')">ลบ</button>
+            </div>  
           </form>
           
         </td>

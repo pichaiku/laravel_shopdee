@@ -3,8 +3,8 @@
 @section('content')
 
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
+<nav aria-label="breadcrumb" style="margin-top: 0px;margin-bottom: -10px;">
+  <ol class="breadcrumb bg bg-light">
     <li class="breadcrumb-item ml-auto"><a href="{{ route('admin.subdistrict.index') }}">หน้าหลัก</a></li>
     <li class="breadcrumb-item active" aria-current="page">แก้ไขรายละเอียดตำบล</li>
   </ol>
@@ -12,8 +12,8 @@
 
 
 <div class="card">
-  <div class="card-header">
-    <h2>แก้ไขข้อมูลตำบล</h2>
+  <div class="card-header h5">
+    แก้ไขข้อมูลตำบล
   </div>
   <div class="card-body">
       <!-- /subdistrict/<?=request()->segment(count(request()->segments())-1)?> -->      
@@ -21,10 +21,11 @@
         @csrf
           <div class="mb-3">
             <label for="provinceID" class="form-label">จังหวัด:</label>
-            <select class="form-select @error('provinceID') is-invalid @enderror" 
-              id="provinceID" name="provinceID" placeholder="กรุณาระบุจังหวัด" >
+            <select class="form-control @error('provinceID') is-invalid @enderror" 
+              id="provinceID" name="provinceID">
+              <option value=""></option>
               @foreach($provinces as $province)
-                <option value="{{ $province->provinceID }}">{{ $province->provinceName }}</option>
+                <option value="{{ $province->provinceID }}" {{$province->provinceID==$subdistrict->provinceID?"selected":""}} >{{ $province->provinceName }}</option>
               @endforeach
             </select>
             <div id="invalid-provinceID" class="invalid-feedback">{{ $errors->first('provinceID') }}</div>
@@ -32,10 +33,11 @@
 
           <div class="mb-3">
             <label for="districtID" class="form-label">อำเภอ:</label>
-            <select class="form-select @error('districtID') is-invalid @enderror" 
-              id="districtID" name="districtID" placeholder="กรุณาระบุอำเภอ" >
+            <select class="form-control @error('districtID') is-invalid @enderror" 
+              id="districtID" name="districtID">
+              <option value=""></option>
               @foreach($districts as $district)
-                <option value="{{ $district->districtID }}">{{ $district->districtName }}</option>
+                <option value="{{ $district->districtID }}" {{$district->districtID==$subdistrict->districtID?"selected":""}} >{{ $district->districtName }}</option>
               @endforeach
             </select>
             <div id="invalid-districtID" class="invalid-feedback">{{ $errors->first('districtID') }}</div>
@@ -44,7 +46,7 @@
           <div class="mb-3 mt-3">
             <label for="subdistrictID" class="form-label">รหัสตำบล:</label>
             <input type="text" class="form-control @error('subdistrictID') is-invalid @enderror" 
-              id="subdistrictID"  name="subdistrictID"  value="{{old('subdistrictID')}}" placeholder="กรุณาระบุรหัสตำบล" >
+              id="subdistrictID"  name="subdistrictID"  value="{{$subdistrict->subdistrictID}}" placeholder="กรุณาระบุรหัสตำบล" >
             <div id="invalid-subdistrictID" class="invalid-feedback">{{ $errors->first('subdistrictID') }}</div>
           </div>
 
@@ -59,5 +61,32 @@
         </form>
   </div>
 </div>
-          
+
+<script type="text/javascript">
+  $('#provinceID').on('change', function() {   
+
+    $('#districtID').empty();
+    
+    if($('#provinceID').val()!=""){
+      var url = '<?=URL::to('/');?>/admin/district/province/' + $('#provinceID').val();
+
+      $('#districtID').html('<option selected="selected" value="">Loading...</option>');
+
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success:function(data) {
+              //console.log(data);
+              $('#districtID').html('<option selected="selected" value=""></option>');
+              $.each(data, function(key, value) {
+                  $('#districtID').append('<option value="'+data[key].districtID+'">'+data[key].districtName+'</option>');
+              });
+
+          }
+      });
+
+    }//if
+  });
+</script>              
 @endsection

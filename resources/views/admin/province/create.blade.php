@@ -2,16 +2,16 @@
 
 @section('content')
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item ml-auto"><a href="{{ route('admin.province.index') }}">หน้าหลัก</a></li>
-    <li class="breadcrumb-item active" aria-current="page">เพิ่มข้อมูลจังหวัด</li>
-  </ol>
-</nav>
+    <nav aria-label="breadcrumb" style="margin-top: 0px;margin-bottom: -10px;">
+      <ol class="breadcrumb bg bg-light">
+        <li class="breadcrumb-item ml-auto"><a href="{{ route('admin.province.index') }}">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active" aria-current="page">เพิ่มข้อมูลจังหวัด</li>
+      </ol>
+    </nav>
 
     <div class="card">
-      <div class="card-header">
-      <h2>เพิ่มข้อมูลจังหวัด</h2>
+      <div class="card-header h5">
+        เพิ่มข้อมูลจังหวัด
       </div>
 
       <form method="post" class="card-body" action="{{ route('admin.province.store') }}">

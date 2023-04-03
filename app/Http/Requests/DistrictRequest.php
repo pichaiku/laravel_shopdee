@@ -25,9 +25,9 @@ class DistrictRequest extends FormRequest
     {
         $productID = $this->route('id');        
         return [
-            'districtID' => 'string|required|min:4|max:4|unique:district,districtID,'.$districtID.',districtID',
-            'districtName' => 'string|required|max:200',
-            'provinceID' => 'string|required|min:2|max:2',
+            'districtID' => 'required|min:4|max:4|unique:district,districtID,'.$districtID.',districtID',
+            'districtName' => 'required|max:200',
+            'provinceID' => 'required|min:2|max:2',
         ];
     }
 

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Province;
+use App\Models\District;
 use App\Models\Subdistrict;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubdistrictRequest;
+use DB;
 
 class SubdistrictController extends Controller
 {
@@ -15,8 +18,21 @@ class SubdistrictController extends Controller
      */
     public function index()
     {
-        $subdistricts = Subdistrict::all();        
+        //$subdistricts = Subdistrict::all();        
+        $sql = "SELECT subdistrict.*, district.districtName, province.provinceName 
+        FROM subdistrict 
+        INNER JOIN district ON subdistrict.districtID = district.districtID
+        INNER JOIN province ON district.provinceID = province.provinceID";
+        $subdistricts = DB::select($sql);
+
         return view("admin.subdistrict.index", compact("subdistricts"));
+    }
+
+    public function subdistrict($id){
+        $sql = "SELECT subdistrictID, subdistrictName 
+        FROM subdistrict 
+        WHERE districtID='$id'";
+        return DB::select($sql);
     }
 
 
@@ -27,7 +43,9 @@ class SubdistrictController extends Controller
      */
     public function create()
     {
-        return view("admin.subdistrict.create");
+        $districts = District::all();
+        $provinces = Province::all();
+        return view("admin.subdistrict.create", compact("districts","provinces"));
     }
 
     /**
@@ -48,7 +66,7 @@ class SubdistrictController extends Controller
         $subdistrict->districtID = $districtID;   
         $subdistrict->save();
 
-        return redirect("/admin/district")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
+        return redirect("/admin/subdistrict")->with("success","คุณได้ทำการลงทะเบียนเรียบร้อยแล้ว");
     }
 
     /**
@@ -70,10 +88,17 @@ class SubdistrictController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $subdistrict = Subdistrict::find($id);
+    {        
+        $provinces = Province::all();
+        $districts = District::all();
+        //$subdistrict = Subdistrict::find($id);
+        $sql = "SELECT subdistrict.*, district.provinceID 
+        FROM subdistrict 
+        INNER JOIN district ON subdistrict.districtID = district.districtID 
+        WHERE subdistrictID='$id'";
+        $subdistrict = DB::select($sql)[0];        
 
-        return view("admin.subdistrict.edit", compact("subdistrict"));
+        return view("admin.subdistrict.edit", compact("provinces","districts","subdistrict"));
     }
 
     /**
@@ -95,7 +120,7 @@ class SubdistrictController extends Controller
         $subdistrict->districtID = $districtID; 
         $subdistrict->save();
         
-        return redirect("/admin/district")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
+        return redirect("/admin/subdistrict")->with("success","คุณได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว");
     }
 
     /**

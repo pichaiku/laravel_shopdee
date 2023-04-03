@@ -75,6 +75,7 @@ Route::get('/admin/district/{id}', [App\Http\Controllers\DistrictController::cla
 Route::get('/admin/district/{id}/edit', [App\Http\Controllers\DistrictController::class, 'edit'])->name('admin.district.edit');
 Route::post('/admin/district/{id}', [App\Http\Controllers\DistrictController::class, 'update'])->name('admin.district.update');
 Route::delete('/admin/district/{id}', [App\Http\Controllers\DistrictController::class, 'destroy'])->name('admin.district.destroy');
+Route::get('/admin/district/province/{id}', [App\Http\Controllers\DistrictController::class, 'district']);
 
 //subdistrict
 Route::get('/admin/subdistrict', [App\Http\Controllers\SubdistrictController::class, 'index'])->name('admin.subdistrict.index');
@@ -84,7 +85,7 @@ Route::get('/admin/subdistrict/{id}', [App\Http\Controllers\SubdistrictControlle
 Route::get('/admin/subdistrict/{id}/edit', [App\Http\Controllers\SubdistrictController::class, 'edit'])->name('admin.subdistrict.edit');
 Route::post('/admin/subdistrict/{id}', [App\Http\Controllers\SubdistrictController::class, 'update'])->name('admin.subdistrict.update');
 Route::delete('/admin/subdistrict/{id}', [App\Http\Controllers\SubdistrictController::class, 'destroy'])->name('admin.subdistrict.destroy');
-
+Route::get('/admin/subdistrict/district/{id}', [App\Http\Controllers\SubdistrictController::class, 'subdistrict']);
 
 Route::get('/houseprice', [App\Http\Controllers\HousePriceController::class, 'index'])->name('houseprice.index');
 Route::post('/houseprice/predict', [App\Http\Controllers\HousePriceController::class, 'predict'])->name('houseprice.predict');

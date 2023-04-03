@@ -17,17 +17,33 @@
 
 </head>
 <body >
-  <script>
-    $(document).ready(function() {
-        $('#table').DataTable(
-          {
-            "oLanguage": {"sSearch": "ค้นหา:"}
-          });
-        
-      } 
-    );
+<script>
+  $(document).ready(function() {
+      $('#table').DataTable(
+        {
+          oLanguage: {"sSearch": "ค้นหา:"},          
+        });
+      
+    } 
+  );
 </script>
-
+<script>
+  $(function () {
+    $("#tablex").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#tablex_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <!-- Left navbar links -->
@@ -190,24 +206,31 @@
         <li class="nav-item">
           <a href="{{ route('admin.dashboard') }}" class="nav-link">
             <i class="nav-icon fas fa-home"></i>
-            <p>แดชบอร์ด</p>
+            <p>หน้าแรก</p>
           </a> 
         </li>
         
         <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-shopping-cart"></i>
+            <p>รายการสั่งซื้อ</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="{{ route('admin.customer.index') }}" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <i class="nav-icon fas fa-user-cog"></i>
             <p>ข้อมูลลูกค้า</p>
           </a>          
         </li>
 
         <li class="nav-item">
           <a href="{{ route('admin.employee.index') }}" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
+            <i class="nav-icon fas fa-user-friends"></i>
             <p>ข้อมูลพนักงาน</p>
           </a>
         </li>
-
+        
         <li class="nav-item">
           <a href="{{ route('admin.producttype.index') }}" class="nav-link">
             <i class="nav-icon fas fa-layer-group"></i>

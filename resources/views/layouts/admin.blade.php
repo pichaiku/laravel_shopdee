@@ -16,7 +16,9 @@
   <script src="https://kit.fontawesome.com/7990c4d00d.js" crossorigin="anonymous"></script>
   
 </head>
-<body >
+
+
+<body class="hold-transition sidebar-mini layout-fixed" style="font-family: Arial, Helvetica, sans-serif">
 
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -253,6 +255,10 @@
     @yield('content')
   </div>
 </div>  
+
+<footer class="main-footer">
+  <strong>สงวนลิขสิทธิ์ &copy; 2564 Shopdee.com</strong>
+</footer>
 
 </body>
 </html>    

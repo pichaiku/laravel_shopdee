@@ -10,6 +10,7 @@ let monthLabel = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","
 <!-- Small boxes (Stat box) -->
 <div class="row">
     <!-- ./col -->
+
     <div class="col-lg-3 col-6">
         <!-- small box -->
         <div class="small-box bg-warning">
@@ -73,8 +74,12 @@ let monthLabel = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","
     <!-- ./col -->
 </div>
 
+
+
 <div class="row">
-    <div class="col-md-6">    
+    <div class="col-md-6"> 
+           
+
         <div class="card card-light">
           <div class="card-header">
             <h3 class="card-title">ยอดการขายรายเดือน</h3>
@@ -88,51 +93,52 @@ let monthLabel = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","
               </button>
             </div>
           </div>
-          
-          <div class="card-body">
-            <canvas id="bar_chart" width="100" height="50"></canvas>
+          <div class="card-body">            
+            
+            <canvas id="bar_chart" style="height: 250px; width: 100%;"></canvas>
             <script>
-            var ctx = document.getElementById('bar_chart').getContext('2d');
-            var bar_chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: monthLabel,
-                    datasets: [{
-                        label: 'ปี {{date("Y")+543}}',
-                        data: '{{json_encode($monthlyAmountData1)}}',
-                        backgroundColor: '#f9bc07',
-                        borderColor    : '#f9bc07',
-                        borderWidth: 1
-                    },{
-                        label: 'ปี {{date("Y")+542}}',
-                        data: '{{json_encode($monthlyAmountData2)}}',
-                        backgroundColor: '#ced4da',
-                        borderColor    : '#ced4da',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                            display      : true,
-                            lineWidth    : '4px',
-                            color        : 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
-                            },
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }],
-                        xAxes: [{
-                            display  : true,
-                            gridLines: {
-                                display: false
-                            },
+                var ctx = document.getElementById('bar_chart').getContext('2d');
+                var bar_chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: monthLabel,
+                        datasets: [{
+                            label: 'ปี {{date("Y")+543}}',
+                            data: '{{json_encode($monthlyAmountData1)}}',
+                            backgroundColor: '#f9bc07',
+                            borderColor    : '#f9bc07',
+                            borderWidth: 1
+                        },{
+                            label: 'ปี {{date("Y")+542}}',
+                            data: '{{json_encode($monthlyAmountData2)}}',
+                            backgroundColor: '#ced4da',
+                            borderColor    : '#ced4da',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                gridLines: {
+                                display      : true,
+                                lineWidth    : '4px',
+                                color        : 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent'
+                                },
+                                ticks: {
+                                    beginAtZero: true
+                                }
                             }],
+                            xAxes: [{
+                                display  : true,
+                                gridLines: {
+                                    display: false
+                                },
+                                }],
+                        }
                     }
-                }
-            });
+                });
+
             </script>
           </div>
  
@@ -155,7 +161,7 @@ let monthLabel = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","
           </div>
           <div class="card-body">
             <div class="chart">
-                <canvas id="bar_chart2" width="100" height="50"></canvas>
+                <canvas id="bar_chart2" style="height: 250px; width: 100%;"></canvas>
                 <script>
                 var ctx2 = document.getElementById('bar_chart2').getContext('2d');
                 var bar_chart2 = new Chart(ctx2, {

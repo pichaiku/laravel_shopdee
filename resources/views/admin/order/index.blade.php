@@ -1,6 +1,33 @@
 @extends('layouts.admin')
 
 @section('content')
+<script>
+  $(document).ready(function() {
+      $('#table').DataTable(
+        {
+          oLanguage: {"sSearch": "ค้นหา:"},          
+        });
+      
+    } 
+  );
+</script>
+<script>
+  $(function () {
+    $("#tablex").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#tablex_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 
   <div class="bg-light">&nbsp;</div>
   <table id="table" class="table table-striped" style="width:100%">

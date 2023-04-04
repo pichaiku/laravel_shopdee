@@ -1,6 +1,17 @@
 @extends('layouts.admin')
 
 @section('content')
+<script>
+  $(document).ready(function() {
+      $('#table').DataTable(
+        {
+          oLanguage: {"sSearch": "ค้นหา:"},          
+        });
+      
+    } 
+  );
+</script>
+
 @if(session()->get('success'))
   <script>    
     Swal.fire(

@@ -4,7 +4,7 @@
   <title>ระบบซื้อขายออนไลน์</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
   <link href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
@@ -14,36 +14,10 @@
   <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
   <script src="https://kit.fontawesome.com/7990c4d00d.js" crossorigin="anonymous"></script>
-
+  
 </head>
 <body >
-<script>
-  $(document).ready(function() {
-      $('#table').DataTable(
-        {
-          oLanguage: {"sSearch": "ค้นหา:"},          
-        });
-      
-    } 
-  );
-</script>
-<script>
-  $(function () {
-    $("#tablex").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#tablex_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
+
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <!-- Left navbar links -->
